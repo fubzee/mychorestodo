@@ -20,8 +20,8 @@ const typeDefs = gql`
         name: String
         email: String
         chart: String
-        user_id: ID
-        children: [Child]
+        user_Id: ID
+
     }
 
     type Child {
@@ -29,8 +29,8 @@ const typeDefs = gql`
         name: String
         totalcredits: Int
         credittype: String
-        parent: Parent
-        chores: [Chore]
+        parent_Id: ID
+        user_Id: ID
     }
 
     type Chore {
@@ -39,31 +39,34 @@ const typeDefs = gql`
         description: String
         status: Boolean
         numcredits: Int
-        parent: Parent
-        child: Child
+        parent_Id : ID
+        child_Id: ID
     }
 
     type Query {
        username(username: String): User
        userid(_id: ID) : User
-       parent( _id: ID) : Parent
-       child(_id: ID): Child
-       children(parent_Id: ID) : Child
+       parent(user_Id: ID) : Parent
+       child(user_Id: ID): Child
+       children(parent_Id: ID) : [Child]
        chore(_id: ID): Chore
-       parentchores(parent_Id: ID) : Chore
-       childchores(child_Id: ID) : Chore
+       parentchores(parent_Id: ID) : [Chore]
+       childchores(child_Id: ID) : [Chore]
     }
 
     type Mutation {
         login(username: String!, password: String!): Auth
         addUser(username: String!, usertype: String!, password: String!, hint: String!) : User
         addParent(name:String!, email:String!, chart: String!,user_Id: String!) : Parent
-        addChild(name: String, totalcredits: Int, credittype: String!, parent_Id: String!, user_Id: String) : Child
-        addChore(name: String!, description: String, status: Boolean, numcredits: Int!, parent_Id: String!, child_Id: String!) : Chore
-        updChore(name: String!, description: String, status: Boolean, numcredits: Int!, parent_Id: String!, child_Id: String!) : Chore
+        addChild(name: String!, totalcredits: Int!, credittype: String!, parent_Id: String!, user_Id: String!) : Child
+        addChore(name: String!, description: String!, status: Boolean!, numcredits: Int!, parent_Id: String!, child_Id: String!) : Chore
+        updChore(chore_id: ID!, name: String!, description: String!, status: Boolean!, numcredits: Int!, parent_Id: String!, child_Id: String!) : Chore
         removeChore(chore_Id: ID!) : Chore
-        removeChores(parent_Id: ID!) : Chore
-        removeChildren(child_Id: ID!) : Child
+        removeParentChores(parent_Id: ID!) : Chore
+        removeChildChores(child_Id: ID!) : Chore
+        removeChildren(parent_Id: ID!) : Child
+        removeParent(parent_Id: ID!) : Parent
+        removeChild(child_Id: ID!) : Child
     }
 `;
     module.exports = typeDefs;

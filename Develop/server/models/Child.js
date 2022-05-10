@@ -14,11 +14,11 @@ const childSchema = new Schema ({
         type: String,
     },
     parent_Id: {
-        type: String,
+        type: Schema.Types.ObjectId, ref: 'Parent'
     },
     user_Id: {
         required: true,
-        type: String
+        type: Schema.Types.ObjectId, ref: 'User'
     }
 });
 

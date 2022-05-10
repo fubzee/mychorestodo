@@ -7,6 +7,7 @@ const userSchema = new Schema ({
         unique: true,
         required: true,
     },
+
     usertype: {
         type: String,
         required: true,
@@ -30,9 +31,9 @@ userSchema.pre('save', async function (next) {
     });
     
     // compare the incoming password with the hashed password
-    userSchema.methods.isCorrectPassword = async function (password) {
-    return bcrypt.compare(password, this.password);
-    };
+userSchema.methods.isCorrectPassword = async function (password) {
+return bcrypt.compare(password, this.password);
+};
 
     userSchema.methods.typeValidator = async function (usertype) {
         if (usertype !== 'Parent' && usertype !== 'Child') {

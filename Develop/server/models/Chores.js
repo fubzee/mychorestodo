@@ -16,12 +16,10 @@ const choreSchema = new Schema ({
         type: Number,
     },
     parent_Id: {
-        type: String,
-        required: true,
+        type: Schema.Types.ObjectId, ref: 'Parent'
     },
     child_Id: {
-        type: String,
-        required: true,
+        type: Schema.Types.ObjectId, ref: 'Child'
     }
 });
 const Chore = model('Chore', choreSchema);

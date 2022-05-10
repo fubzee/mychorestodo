@@ -8,11 +8,11 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
   Query: {
     username: async (parent, { username }) => {
-      return User.findOne({ username:username });
+      return User.findOne({ username:username } );
     },
 
-    userid: async (parent, { user_Id }) => {
-      return User.findOne({ _Id: user_Id });
+    userid: async (parent, { _id }) => {
+      return User.findById({ _id: _id });
     },
 
     parent: async (parent, { user_Id }) => {
@@ -20,22 +20,22 @@ const resolvers = {
       },
 
     children: async (parent, { parent_Id }) => {
-    return Child.findAll({ _id: parent_Id });
+    return Child.find({ parent_Id: parent_Id } );
     },
 
-    child: async (parent, { child_Id }) => {
-    return Child.findOne({ _id: child_Id });
+    child: async (parent, { user_Id }) => {
+    return Child.findOne({ user_Id: user_Id });
     },
 
-    chore: async (parent, { chore_Id }) => {
-    return Chore.find({ _id: chore_Id });
+    chore: async (parent, { _id }) => {
+    return Chore.findById({ _id: _id });
     },
     
     parentchores: async (parent, { parent_Id }) => {
-    return Chore.findMany({parent_Id: parent_Id });
+    return Chore.find({parent_Id: parent_Id });
     },
     childchores: async (parent, { child_Id }) => {
-    return Chore.findMany({ child_Id: child_Id });
+    return Chore.find({ child_Id: child_Id });
     },
   },
 
@@ -43,6 +43,7 @@ const resolvers = {
     addUser: async (parent, { username, usertype, password, hint }) => {
       const user = await User.create({ username, usertype, password, hint });
       const token = signToken(User);
+      return user;
     //   const correctUt = await User.typeValidator(usertype);
     },
 
@@ -59,39 +60,46 @@ const resolvers = {
       }
 
       const token = signToken(user);
-      return { token, User };
+      return { token, user };
     },
 
     addParent: async (parent, { name, email, chart, user_Id }) => {
       const newParent = await Parent.create({ name, email, chart, user_Id });
-      return { Parent };
+      return newParent;
     },
 
-    addChild: async (parent, { name, totalcredits, creditType, parent_Id, user_Id }) => {
-        const child = await Child.create({  name, totalcredits, creditType, parent_Id, user_Id });
-        return { Child };
+    addChild: async (parent, { name, totalcredits, credittype, parent_Id, user_Id }) => {
+        const child = await Child.create({  name, totalcredits, credittype, parent_Id, user_Id });
+        return child;
     },
 
     addChore: async (parent, { name, description, status, numcredits, parent_Id, child_Id }) => {
         const chore = await Chore.create({ name, description, status, numcredits, parent_Id, child_Id });
-        return { Chore };
+        return chore;
     },
 
-    updChore: async (parent, { name, description, status, numcredits, parent_Id, child_Id }) => {
-        const chore = await Chore.set({ name, description, status, numcredits, parent_Id, child_Id });
-        return { Chore };
+    updChore: async (parent, { chore_id, name, description, status, numcredits, parent_Id, child_Id  }) => {
+        const chore = await Chore.findOneAndUpdate({ chore_id, name, description, status, numcredits, parent_Id, child_Id });
+        return chore;
     },
 
     removeChore: async (parent, { chore_Id }) => {
       return Chore.findOneAndDelete({ _id: chore_Id });
     },
-
-    removeChores: async (parent, { parent_Id }) => {
-        return Chore.findManyAndDelete({ _id: parent_Id });
+    removeParent: async (parent, { parent_Id }) => {
+      return Parent.findOneAndDelete({ _id: parent_Id });
     },
-
+    removeChild: async (parent, { child_Id }) => {
+      return Child.findOneAndDelete({ _id: child_Id });
+    },
+    removeParentChores: async (parent, { parent_Id }) => {
+        return Chore.deleteMany({ parent_Id: parent_Id });
+    },
+    removeChildChores: async (parent, { child_Id }) => {
+      return Chore.deleteMany({ child_Id : child_Id });
+  },
     removeChildren: async (parent, { parent_Id }) => {
-        return Child.findManyAndDelete({ _id: parent_Id });
+        return Child.deleteMany({ parent_Id : parent_Id });
     },
   },
 };

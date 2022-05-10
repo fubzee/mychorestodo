@@ -17,7 +17,7 @@ const parentSchema = new Schema ({
         required: true,
     },
     user_Id: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId, ref: 'User',
         required: true,
     },
 });
