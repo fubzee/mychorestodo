@@ -1,9 +1,19 @@
 {
-  "dependencies": {
-    "@types/jest": "^27.5.0",
-    "@types/node": "^17.0.31",
-    "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.3",
-    "typescript": "^4.6.4"
+  "name": "mychorestodo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0"
   }
 }

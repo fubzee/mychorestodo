@@ -15,6 +15,16 @@ const choreSchema = new Schema ({
     numcredits: {
         type: Number,
     },
+    repeat: {
+        type: String,
+        default: "No",
+    },
+    datecreated: {
+        type: Date,
+    },
+    datecompleted: {
+        type: Date
+    },
     parent_Id: {
         type: Schema.Types.ObjectId, ref: 'Parent'
     },

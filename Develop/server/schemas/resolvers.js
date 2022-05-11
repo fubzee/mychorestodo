@@ -73,8 +73,8 @@ const resolvers = {
         return child;
     },
 
-    addChore: async (parent, { name, description, status, numcredits, parent_Id, child_Id }) => {
-        const chore = await Chore.create({ name, description, status, numcredits, parent_Id, child_Id });
+    addChore: async (parent, { name, description, status, numcredits, parent_Id, child_Id, repeat, datecreated, datecompleted }) => {
+        const chore = await Chore.create({ name, description, status, numcredits, parent_Id, child_Id, repeat, datecreated, datecompleted });
         return chore;
     },
 
@@ -85,6 +85,9 @@ const resolvers = {
 
     removeChore: async (parent, { chore_Id }) => {
       return Chore.findOneAndDelete({ _id: chore_Id });
+    },
+    removeUser: async (parent, { user_Id }) => {
+      return User.findOneAndDelete({ _id: user_Id });
     },
     removeParent: async (parent, { parent_Id }) => {
       return Parent.findOneAndDelete({ _id: parent_Id });
