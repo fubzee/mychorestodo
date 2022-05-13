@@ -2,14 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const Wrapper = styled.section`
-  padding: 4em;
-  background: #FFF8DC;
-`;
-
 const Regbtn = styled.button`
 
-  /* Adapt the colors based on state */
     display: inline-block;
     font-family: 'Fredericka the Great', cursive;
     border-radius: 3px;
@@ -21,22 +15,19 @@ const Regbtn = styled.button`
     border: 3px solid #538e73ba;
     font-size: 1em;
 `;
-function Registerbtn() {
+function Addchorebtn() {
    
 return (
     <div>
-      <Wrapper>
-        <Regbtn>
+    <Regbtn>
         <Link 
             type="button"
-            // className="button"
-            to={`/Register`}>Register
+            className="button"
+            to={`/Add/Chore`}>Add Chore
         </Link>
-        
-        </Regbtn>
-      </Wrapper>
+    </Regbtn>
     </div>
   );
 }
 
-export default Registerbtn;
+export default Addchorebtn;

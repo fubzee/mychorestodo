@@ -27,16 +27,16 @@ const Savebtn = styled.button`
   border-radius: 3px;
 `;
 
-const Newchore = () => {
+const AddChore = () => {
  
   const [formState, setFormState] = useState({
     name: '',
     description: '',
-    numcredits: '',
+    num_credits: '',
     repeat:'',
-    parent_Id: '',
-    child_Id: '',
-    datecreated: ''
+    parentId: '',
+    childId: '',
+  
   });
 
   const [addChore, { error, data }] = useMutation(ADD_CHORE);
@@ -55,9 +55,14 @@ const Newchore = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(formState);
-
+    const numcreditsint = parseInt(formState.num_credits)
+    const datecreated = Date()
     try {
-      const { data } = await addChore({variables: { ...formState }})
+      const { data } = await addChore({variables: { 
+        "numcredits":numcreditsint, 
+        "status" : false,
+        "datecreated": datecreated,
+        ...formState }})
     console.log(data);
     // Auth.login(data.addUser.token);
     // console.log(data.addUser._id)
@@ -89,51 +94,42 @@ const Newchore = () => {
           placeholder="Description"
           name="description"
           type="text"
-          value={formState.desription}
+          value={formState.description}
           onChange={handleChange}
           
         />
         <input
           className="form-input"
           placeholder="How many credits"
-          name="numcredits"
+          name="num_credits"
           type="Number"
-          value={formState.numcredits}
-          onChange={handleChange}
-        />
-        {/* <input
-          className="form-input"
-          placeholder="******"
-          name="password"
-          type="password"
-          value={formState.password}
+          value={formState.num_credits}
           onChange={handleChange}
         />
         <input
           className="form-input"
-          placeholder="Name"
-          name="name"
+          placeholder="Parent_Id"
+          name="parentId"
           type="text"
-          value={formState.name}
+          value={formState.parentId}
           onChange={handleChange}
         />
         <input
           className="form-input"
-          placeholder="eMail"
-          name="email"
+          placeholder="childId"
+          name="childId"
           type="text"
-          value={formState.email}
+          value={formState.childId}
           onChange={handleChange}
         />
         <input
           className="form-input"
-          placeholder="Chart Name"
-          name="chart"
-          type="text"
-          value={formState.chart}
+          placeholder="repeat"
+          name="repeat"
+          type="String"
+          value={formState.repeat}
           onChange={handleChange}
-        /> */}
-
+        />
         <Savebtn
             type="Submit">
           Submit
@@ -149,4 +145,4 @@ const Newchore = () => {
   );
 };
 
-export default Registration;
+export default AddChore;

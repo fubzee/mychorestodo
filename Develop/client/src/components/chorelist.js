@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Childchores } from './chorelist'
+import { useQuery } from '@apollo/client';
+import { QUERY_ALL_CHILDREN_CHORES } from '../utils/queries';
+import { Link } from 'react-router-dom';
 
 
 // Create a Title component that'll render an <h1> tag with some styles
@@ -21,15 +23,18 @@ const Notice = styled.section`
   background: #2F4F4F;
 `;
 // Use Title and Wrapper like any other React component – except they're styled!
-export default function Childchorelists() {
+const Chorelist = () => {
+ 
+    const [getChore, { error, data }] = useQuery(QUERY_ALL_CHILDREN_CHORES);
+
     return (
       <Wrapper>
-          <Notice>
-            <Title>
-                 Child's Chore List
-                 {Childchores}
-            </Title>
-          </Notice>
+        <p>
+         [{data.Childchores}]
+        </p>
       </Wrapper>
-    )
-}
+    );
+  };
+  
+  export default Chorelist;
+  

@@ -11,6 +11,8 @@ import './App.css';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Chores from './pages/Addchores';
+import AddchildPage from './pages/Addchild';
+import AddchorePage from './pages/Addchore';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -50,6 +52,14 @@ function App() {
           <Route 
             path="/Chores/:usertype" 
             element={<Chores />} 
+          />
+          <Route 
+            path="/Add/child" 
+            element={<AddchildPage />} 
+          />
+          <Route 
+            path="/Add/Chore" 
+            element={<AddchorePage />} 
           />
         </Routes>
       </div>

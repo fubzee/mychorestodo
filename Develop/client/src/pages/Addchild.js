@@ -1,17 +1,15 @@
 import React from 'react';
 import Baseline from '../components/baseline';
-import Parentchores from '../components/parentchores';
+import AddChild from '../components/addchild';
 
 
 
 
-const ParentPage = () => {
+const AddchildPage = () => {
 
     return(
             <div>
-                <Parentchores
-                {...Parentchores}
-                />
+                <AddChild />
                  <Baseline
                 {...Baseline}
                 />
@@ -19,4 +17,4 @@ const ParentPage = () => {
     );
 }
 
-export default ParentPage;
+export default AddchildPage;

@@ -1,6 +1,7 @@
 import React from 'react';
-import Childchores  from '../components/childchores';
-
+import Baseline from '../components/baseline';
+import Childchorelists  from '../components/childchores';
+import Headline from '../components/headline';
 
 
 
@@ -9,8 +10,14 @@ const Chores = () => {
     return(
 
     <div>
-        <Childchores
-        {...Childchores}
+        <Headline
+        {...Headline}
+        />
+        <Childchorelists
+        {...Childchorelists}
+        />
+         <Baseline
+        {...Baseline}
         />
     </div>
  

@@ -17,9 +17,7 @@ background: #000000;
 `;
 
 const Savebtn = styled.button`
-
-  /* Adapt the colors based on state */
-  background:  #FFF8DC;
+  background: #2F4F4F;
   color: # 000;
   font-size: 1em;
   margin: 1em;

@@ -8,17 +8,22 @@ const Home = () => {
     return(
 
     <div>
-        <Headline
-        {...Headline}
-        />
-        <LoginForm
-        {...LoginForm}
-        />
-        <Registerbtn
-        {...Registerbtn} 
-        />   
+        <div className='jumbotron'>
+            <Headline
+            {...Headline}
+            />
+        </div>
+        <div className='container'>
+            <div className = 'row'>
+                <div className = 'col-md-6'>
+                    <LoginForm />
+                </div>
+                <div className = 'col-md-6'>
+                    <Registerbtn />
+                </div>
+            </div>
+        </div>
     </div>
- 
     );
 }
 

@@ -8,19 +8,20 @@ import Auth from '../utils/auth';
 const Wrapper = styled.section`
   padding: 4em;
   background: #FFF8DC;
+ 
 `;
-
-
 const Savebtn = styled.button`
 
-  /* Adapt the colors based on state */
-  background:  #FFF8DC;
-  color: # 000;
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid #000;
-  border-radius: 3px;
+display: inline-block;
+font-family: 'Fredericka the Great', cursive;
+border-radius: 3px;
+padding: 0.25em 1em;
+margin: 0.5rem 1rem;
+width: 8rem;
+background: #FFFFF0;
+color: #2F4F4F;
+border: 3px solid #538e73ba;
+font-size: 1em;
 `;
 
 const LoginForm = () => {
@@ -48,10 +49,10 @@ const LoginForm = () => {
         console.log(data);
         Auth.login(data.login.token);
         if (data.login.user.usertype === "Parent") {
-          navigate("/Chores/Parent");
+          navigate("/Chores/Parent");  // Add Cores
         }
         else {
-          navigate("/Chores/child");
+          navigate("/Chores/Child");  // My chores
         }
       } catch (e) {
         console.error(e);
@@ -62,30 +63,33 @@ const LoginForm = () => {
     return (
       <div>
         <Wrapper>
-        <p>
-          Hello 
-        </p>
-        <form className="form">
-          <input
-            value={formState.username}
-            name="username"
-            onChange={handleInput}
-            type="text"
-            placeholder="User Name"
-            
-
-          />
-          <input
-            value={formState.password}
-            name="password"
-            onChange={handleInput}
-            type="password"
-            placeholder="********"
-          />
+            <div>
+              <p>Hello </p>
+            </div>
+            <form className="form">
+              <input
+              value={formState.username}
+              name="username"
+              onChange={handleInput}
+              type="text"
+              placeholder="User Name"
+              />
+            <div className="col-md-6">
+              <input
+              value={formState.password}
+              name="password"
+              onChange={handleInput}
+              type="password"
+              placeholder="********"
+              />
+            </div>
+          
+     
           <Savebtn type="button" onClick={handleFormSubmit}>
             Log In
           </Savebtn>
         </form>
+       
         </Wrapper>
       </div>
     );

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Logoutbtn from './logoutbtn';
 
 const Wrapper = styled.section`
   padding: 4em;
@@ -21,22 +22,13 @@ const Regbtn = styled.button`
     border: 3px solid #538e73ba;
     font-size: 1em;
 `;
-function Registerbtn() {
+function Baseline() {
    
 return (
     <div>
-      <Wrapper>
-        <Regbtn>
-        <Link 
-            type="button"
-            // className="button"
-            to={`/Register`}>Register
-        </Link>
-        
-        </Regbtn>
-      </Wrapper>
+      <Logoutbtn />
     </div>
   );
 }
 
-export default Registerbtn;
+export default Baseline;

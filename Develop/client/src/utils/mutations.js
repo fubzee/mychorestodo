@@ -37,7 +37,7 @@ mutation AddParent($name: String!, $email: String!, $chart: String!, $userId: St
 `;
 
 export const ADD_CHILD = gql`
-mutation AddChild($name: String, $totalcredits: Int, $credittype: String!, $parentId: String!, $userId: String) {
+mutation AddChild($name: String!, $totalcredits: Int!, $credittype: String!, $parentId: String!, $userId: String!) {
     addChild(name: $name, totalcredits: $totalcredits, credittype: $credittype, parent_Id: $parentId, user_Id: $userId) {
       _id
       name

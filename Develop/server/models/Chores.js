@@ -32,5 +32,11 @@ const choreSchema = new Schema ({
         type: Schema.Types.ObjectId, ref: 'Child'
     }
 });
+
+choreSchema.pre('save', async function (next) {
+    datecreated=Date();
+    next();
+});
+
 const Chore = model('Chore', choreSchema);
 module.exports = Chore;
