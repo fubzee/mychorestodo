@@ -6,22 +6,28 @@ import styled from 'styled-components';
 const Title = styled.h1`
   font-size: 1.5em;
   text-align: center;
-  color: palevioletred;
+  color: #FFFFF0;
 `;
 
 // Create a Wrapper component that'll render a <section> tag with some styles
 const Wrapper = styled.section`
   padding: 4em;
-  background: papayawhip;
+  background: #FFF8DC;
 `;
 
+const Notice = styled.section`
+  padding: 6em;
+  background: #2F4F4F;
+`;
 // Use Title and Wrapper like any other React component – except they're styled!
-export default function Headline() {
+export default function Parentchores() {
     return (
-        <Wrapper>
+      <Wrapper>
+          <Notice>
             <Title>
-            Hello World!
+                 Parent's Chore List
             </Title>
-        </Wrapper>
+          </Notice>
+      </Wrapper>
     )
 }

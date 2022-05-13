@@ -1,8 +1,17 @@
 import React from 'react';
+import Registration from '../components/register';
 
-export default function Register() {
+
+
+const Register = () => {
+
     return(
         <div>
+         <Registration
+         {...Registration}
+         />
         </div>
     );
 }
+
+export default Register;

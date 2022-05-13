@@ -49,11 +49,11 @@ const resolvers = {
 
     login: async (parent, { username, password }) => {
       const user = await User.findOne({ username });
-
+      console.log(username,password);
       if (!user) {
         throw new AuthenticationError('We are having an issue with logging you in please try again.');
       }
-      const correctPw = await User.isCorrectPassword(password);
+      const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
         throw new AuthenticationError('We are having an issue with logging you in please try again!');
