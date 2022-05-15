@@ -7,9 +7,10 @@ const { Provider } = AccountContext;
 const AccountProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useAccountReducer({
     isLoggedIn: false,
+    user_id: '',
     usertype: '',
   });
-
+  console.log("state=", state);
   return <Provider value={[state, dispatch]} {...props} />;
 };
 

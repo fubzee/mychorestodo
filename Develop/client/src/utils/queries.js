@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_USERNAME = gql`
+
 query Username($username: String) {
     username(username: $username) {
       _id
@@ -13,14 +14,15 @@ query Username($username: String) {
 `;
 
 export const QUERY_SINGLE_USER = gql`
-query Userid($id: ID) {
-    userid(_id: $id) {
+query User($id: ID) {
+    user(_id: $id) {
       username
       usertype
       hint
     }
   }
 `;
+
 export const QUERY_SINGLE_PARENT = gql`
 query Parent($userId: ID) {
     parent(user_Id: $userId) {
@@ -28,11 +30,12 @@ query Parent($userId: ID) {
       name
       email
       chart
+      user_Id
     }
   }
 `;
 export const QUERY_SINGLE_CHILD = gql`
-query Query($userId: ID) {
+query Child($userId: ID) {
     child(user_Id: $userId) {
       _id
       name
@@ -55,7 +58,7 @@ query Children($parentId: ID) {
   }
 `;
 export const QUERY_SINGLE_CHORE = gql`
-query Query($id: ID) {
+query Chore($id: ID) {
     chore(_id: $id) {
       _id
       name
@@ -79,8 +82,11 @@ query Parentchores($parentId: ID) {
       description
       status
       numcredits
-      parent_Id
+      repeat
+      datecreated
+      datecompleted
       child_Id
+      parent_Id
     }
   }
 `;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -6,7 +7,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import './App.css';
 import Home from './pages/Home';
 import Register from './pages/Register';
@@ -50,7 +51,7 @@ function App() {
             element={<Register />} 
           />
           <Route 
-            path="/Chores/:usertype" 
+            path="/Add/Chores/:usertype" 
             element={<Chores />} 
           />
           <Route 

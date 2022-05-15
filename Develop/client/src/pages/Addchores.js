@@ -9,12 +9,8 @@ const ParentPage = () => {
 
     return(
             <div>
-                <Parentchores
-                {...Parentchores}
-                />
-                 <Baseline
-                {...Baseline}
-                />
+                <Parentchores />
+                <Baseline />
             </div>
     );
 }

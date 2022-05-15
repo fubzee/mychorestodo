@@ -48,7 +48,7 @@ const typeDefs = gql`
 
     type Query {
        username(username: String): User
-       userid(_id: ID) : User
+       user(_id: ID) : User
        parent(user_Id: ID) : Parent
        child(user_Id: ID): Child
        children(parent_Id: ID) : [Child]

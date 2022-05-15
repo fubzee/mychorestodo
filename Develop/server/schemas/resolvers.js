@@ -11,7 +11,7 @@ const resolvers = {
       return User.findOne({ username:username } );
     },
 
-    userid: async (parent, { _id }) => {
+    user: async (parent, { _id }) => {
       return User.findById({ _id: _id });
     },
 
@@ -19,13 +19,13 @@ const resolvers = {
         return Parent.findOne({ user_Id: user_Id });
       },
 
-    children: async (parent, { parent_Id }) => {
-    return Child.find({ parent_Id: parent_Id } );
-    },
-
     child: async (parent, { user_Id }) => {
     return Child.findOne({ user_Id: user_Id });
     },
+
+    children: async (parent, { parent_Id }) => {
+      return Child.find({ parent_Id: parent_Id } );
+      },
 
     chore: async (parent, { _id }) => {
     return Chore.findById({ _id: _id });
@@ -44,8 +44,7 @@ const resolvers = {
       const user = await User.create({ username, usertype, password, hint });
       const token = signToken(User);
       return user;
-    //   const correctUt = await User.typeValidator(usertype);
-    },
+     },
 
     login: async (parent, { username, password }) => {
       const user = await User.findOne({ username });
