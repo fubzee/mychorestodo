@@ -27,10 +27,6 @@ const Wrapper = styled.section`
   background: #FFF8DC;
 `;
 
-const Notice = styled.section`
-  padding: 6em;
-  background: #2F4F4F;
-`;
 // Use Title and Wrapper like any other React component – except they're styled!
 export default function Headline() {
     return (

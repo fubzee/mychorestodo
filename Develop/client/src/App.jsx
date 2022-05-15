@@ -14,6 +14,12 @@ import Register from './pages/Register';
 import Chores from './pages/Addchores';
 import AddchildPage from './pages/Addchild';
 import AddchorePage from './pages/Addchore';
+import Donate from './pages/Donate'
+import Success from './pages/Success'
+import OrderHistory from './pages/OrderHistory';
+import Detail from './pages/Detail';
+import NoMatch from './pages/NoMatch';
+
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -62,6 +68,27 @@ function App() {
             path="/Add/Chore" 
             element={<AddchorePage />} 
           />
+          <Route
+            path="/Donate"
+            element={<Donate />}
+          />
+            <Route 
+            path="/Success" 
+            element={<Success />} 
+          />
+          <Route 
+            path="/orderHistory" 
+            element={<OrderHistory />} 
+          />
+          <Route 
+            path="/products/:id" 
+            element={<Detail />} 
+          />
+          <Route
+            path="*" 
+            element={<NoMatch />} 
+          />
+          
         </Routes>
       </div>
     </Router>

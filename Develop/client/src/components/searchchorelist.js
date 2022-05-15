@@ -37,7 +37,7 @@ const Choreslist = () => {
   return (
     <div>
       {/* Pass our results to the ResultsList component to map over */}
-      <ResultList results={results} />
+      <ResultList results={ChoreList} />
     </div>
     );
   };

@@ -46,15 +46,43 @@ const typeDefs = gql`
         child_Id: ID
     }
 
+    type Category {
+        _id: ID
+        name: String
+      }
+    
+      type Product {
+        _id: ID
+        name: String
+        description: String
+        image: String
+        quantity: Int
+        price: Float
+        category: Category
+      }
+    
+      type Order {
+        _id: ID
+        purchaseDate: String
+        products: [Product]
+      }
+      type Checkout {
+        session: ID
+      }
     type Query {
-       username(username: String): User
-       user(_id: ID) : User
-       parent(user_Id: ID) : Parent
-       child(user_Id: ID): Child
-       children(parent_Id: ID) : [Child]
-       chore(_id: ID): Chore
-       parentchores(parent_Id: ID) : [Chore]
-       childchores(child_Id: ID) : [Chore]
+        username(username: String): User
+        user(_id: ID) : User
+        parent(user_Id: ID) : Parent
+        child(user_Id: ID): Child
+        children(parent_Id: ID) : [Child]
+        chore(_id: ID): Chore
+        parentchores(parent_Id: ID) : [Chore]
+        childchores(child_Id: ID) : [Chore]
+        categories: [Category]
+        products(category: ID, name: String): [Product]
+        product(_id: ID!): Product
+        order(_id: ID!): Order
+        checkout(products: [ID]!): Checkout
     }
 
     type Mutation {
@@ -71,6 +99,8 @@ const typeDefs = gql`
         removeParent(parent_Id: ID!) : Parent
         removeChild(child_Id: ID!) : Child
         removeUser(user_Id: ID!) : User
+        addOrder(products: [ID]!): Order
+        updateProduct(_id: ID!, quantity: Int!): Product
     }
 `;
     module.exports = typeDefs;

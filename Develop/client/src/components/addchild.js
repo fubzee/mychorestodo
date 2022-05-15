@@ -68,7 +68,7 @@ const AddChild = () => {
   });
 
   const [addUser, { error, data }] = useMutation(ADD_USER);
-  const [addChild, {err1, data1}] = useMutation(ADD_CHILD);
+  const [addChild, {c_err, c_data1}] = useMutation(ADD_CHILD);
   // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -85,22 +85,22 @@ const AddChild = () => {
     console.log(formState);
     try {
       const { data } = await addUser({variables: { ...formState }})
-    console.log(data);
-    Auth.login(data.addUser.token);
-    console.log(data.addUser._id)
-    console.log(event.totalcredits)
-    const totalcreditsint = parseInt(formState.total_credits)
-    
-    console.log(totalcreditsint);
-    await addChild({variables: { 
+      console.log(data);
+      Auth.login(data.addUser.token);
+      console.log(data.addUser._id)
+      console.log(event.totalcredits)
+      const totalcreditsint = parseInt(formState.total_credits)
+      console.log(totalcreditsint);
+      const { c_data } = await addChild({variables: { 
       "userId":data.addUser._id, 
       "totalcredits":totalcreditsint, 
       "parent_ID": useContext.Parent._id, 
       ...formState }})
-    } catch (e) {
-      console.error(e.message);
+      }catch (e) {
+        console.error(e.message);
+      }
     }
-  }
+  
 
   return (
     <Wrapper>
@@ -111,7 +111,7 @@ const AddChild = () => {
         <Link to= "/Chores/Parent">back and add some chores to do!.</Link>
      </Text>
     ) : (
-      <Card onSubmit={handleFormSubmit}>
+      <Card>
         <Text>Child's Information</Text>
         <Input
           className="form-input"
@@ -177,8 +177,8 @@ const AddChild = () => {
           value={formState.parentId}
           onChange={handleChange}
           /> */}
-          <Savebtn
-            type="Submit">
+          <Savebtn 
+            type="Submit" onClick={handleFormSubmit}>
              Submit
           </Savebtn>
       </Card>

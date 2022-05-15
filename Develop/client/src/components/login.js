@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, createContext } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQuery } from '@apollo/client';
 import { LOGIN } from '../utils/mutations';
@@ -51,8 +51,8 @@ const Card = styled.div`
 const LoginForm = () => {
   // Here we set two state variables for username and password using `useState`
     const [formState, setFormState] = useState({ username: '', password: '' });
-    const ParentContext = React.createContext();
-    const ChildContext = React.createContext();
+    const ParentContext = createContext();
+    const ChildContext = createContext();
     const [login, { error, data }] = useMutation(LOGIN);
     const navigate = useNavigate();
     const GetParent = useQuery(QUERY_SINGLE_PARENT);

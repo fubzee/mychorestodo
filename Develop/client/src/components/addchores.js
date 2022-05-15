@@ -105,7 +105,7 @@ const AddChore = () => {
         <Link to="/chores/parent">back to the page.</Link>
       </Text>
     ) : (
-      <Card onSubmit={handleFormSubmit}>
+      <Card>
         <Input>
           className="form-input"
           placeholder="Name of Chore/Task"
@@ -155,7 +155,7 @@ const AddChore = () => {
           onChange={handleChange}
           </Input>
         <Savebtn
-            type="Submit">
+              type="Submit" onClick={handleFormSubmit}>
           Submit
         </Savebtn>
       </Card>

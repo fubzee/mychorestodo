@@ -16,26 +16,6 @@ const Regbtn = styled.button`
     font-size: 1em;
 `;
 
-// const handleFormSubmit = async (e) => {
-//     // Preventing the default behavior of the form submit (which is to refresh the page)
-//     e.preventDefault();
-//     try {
-//       const { data } = await  login({
-//         variables: { ...formState },
-//       });
-//       console.log(data);
-//       Auth.login(data.login.token);
-//       if (data.login.user.usertype === "Parent") {
-//         navigate("/Chores/Parent");
-//       }
-//       else {
-//         navigate("/Chores/Child");
-//       }
-//     } catch (e) {
-//       console.error(e);
-//     }
-    
-//   };
 function Addchildbtn() {
    
 return (

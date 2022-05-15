@@ -1,8 +1,11 @@
 import React, { createContext, useContext } from 'react';
 import { useAccountReducer } from './reducers';
+import { useProductReducer } from './reducers'
 
 const AccountContext = createContext();
-const { Provider } = AccountContext;
+const { AccProvider } = AccountContext;
+const StoreContext = createContext();
+const { StrProvider } = StoreContext;
 
 const AccountProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useAccountReducer({
@@ -11,9 +14,25 @@ const AccountProvider = ({ value = [], ...props }) => {
     usertype: '',
   });
   console.log("state=", state);
-  return <Provider value={[state, dispatch]} {...props} />;
+  return <AccProvider value={[state, dispatch]} {...props} />;
+};
+
+const StoreProvider = ({ value = [], ...props }) => {
+  const [state, dispatch] = useProductReducer({
+    products: [],
+    cart: [],
+    cartOpen: false,
+    categories: [],
+    currentCategory: '',
+  });
+
+  return <StrProvider value={[state, dispatch]} {...props} />;
+};
+
+const useStoreContext = () => {
+  return useContext(StoreContext);
 };
 
 const useAccountContext = () => useContext(AccountContext);
 
-export { AccountProvider, useAccountContext };
+export { AccountProvider, useAccountContext, StoreProvider, useStoreContext };

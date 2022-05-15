@@ -170,3 +170,21 @@ mutation UpdChore($choreId: ID!, $name: String!, $description: String!, $status:
     }
   }
   `;
+
+  export const ADD_ORDER = gql`
+  mutation addOrder($products: [ID]!) {
+    addOrder(products: $products) {
+      purchaseDate
+      products {
+        _id
+        name
+        description
+        price
+        quantity
+        category {
+          name
+        }
+      }
+    }
+  }
+`;

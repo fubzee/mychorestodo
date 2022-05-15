@@ -55,7 +55,7 @@ const Registration = () => {
  
   const [formState, setFormState] = useState({
     username: '',
-    usertype: '',
+    // usertype: '',
     password: '',
     hint: '',
     name: '',
@@ -81,7 +81,7 @@ const Registration = () => {
     console.log(formState);
 
     try {
-      const { data } = await addUser({variables: { ...formState }})
+      const { data } = await addUser({variables: { "usertype": "Parent", ...formState }})
     console.log(data);
     Auth.login(data.addUser.token);
     console.log(data.addUser._id)
@@ -149,7 +149,7 @@ const Registration = () => {
             value={formState.chart}
             onChange={handleChange}
           />  
-          <Input
+          {/* <Input
             className="form-input"
             placeholder="Parent"
             defaultValue={"Parent"}
@@ -157,9 +157,9 @@ const Registration = () => {
             type="text"
             value={formState.usertype}
             onChange={handleChange}
-          />
-        <Savebtn
-            type="Submit">
+          /> */}
+        <Savebtn 
+            type="Submit" onClick={handleFormSubmit}>
           Submit
         </Savebtn>
       </Card>
