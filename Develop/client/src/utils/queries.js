@@ -23,29 +23,29 @@ query User($id: ID) {
   }
 `;
 
-export const QUERY_SINGLE_PARENT = gql`
-query Parent($userId: ID) {
-    parent(user_Id: $userId) {
-      _id
-      name
-      email
-      chart
-      user_Id
-    }
-  }
-`;
-export const QUERY_SINGLE_CHILD = gql`
-query Child($userId: ID) {
-    child(user_Id: $userId) {
-      _id
-      name
-      totalcredits
-      credittype
-      parent_Id
-      user_Id
-    }
-  }
-`;
+// export const QUERY_SINGLE_PARENT = gql`
+// query Parent($userId: ID) {
+//     parent(user_Id: $userId) {
+//       _id
+//       name
+//       email
+//       chart
+//       user_Id
+//     }
+//   }
+// `;
+// export const QUERY_SINGLE_CHILD = gql`
+// query Child($userId: ID) {
+//     child(user_Id: $userId) {
+//       _id
+//       name
+//       totalcredits
+//       credittype
+//       parent_Id
+//       user_Id
+//     }
+//   }
+// `;
 export const QUERY_ALL_CHILDREN = gql`
 query Children($parentId: ID) {
     children(parent_Id: $parentId) {

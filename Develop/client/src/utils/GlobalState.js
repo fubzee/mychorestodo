@@ -1,11 +1,13 @@
 import React, { createContext, useContext } from 'react';
 import { useAccountReducer } from './reducers';
-import { useProductReducer } from './reducers'
+import { useProductReducer } from './reducers';
+import { useParentReducer } from './reducers';
+import { useChildReducer } from './reducers';
 
 const AccountContext = createContext();
-const { AccProvider } = AccountContext;
+const ParentContext = createContext();
 const StoreContext = createContext();
-const { StrProvider } = StoreContext;
+const ChildContext = createContext();
 
 const AccountProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useAccountReducer({
@@ -14,7 +16,7 @@ const AccountProvider = ({ value = [], ...props }) => {
     usertype: '',
   });
   console.log("state=", state);
-  return <AccProvider value={[state, dispatch]} {...props} />;
+  return <AccountContext.Provider value={[state, dispatch]} {...props} />;
 };
 
 const StoreProvider = ({ value = [], ...props }) => {
@@ -26,13 +28,43 @@ const StoreProvider = ({ value = [], ...props }) => {
     currentCategory: '',
   });
 
-  return <StrProvider value={[state, dispatch]} {...props} />;
+return <StoreContext.Provider value={[state, dispatch]} {...props} />;
+};
+
+const ParentProvider = ({ value = [], ...props }) => {
+  const [state, dispatch] = useParentReducer({
+      Parent: []
+      });
+
+return <ParentContext.Provider value={[state, dispatch]} {...props} />;
+};
+
+const ChildProvider = ( { value = [], ...props }) => {
+  const [state, dispatch] = useChildReducer({
+      Child: []
+      });
+
+return <ChildContext.Provider value={[state, dispatch]} {...props} />;
 };
 
 const useStoreContext = () => {
   return useContext(StoreContext);
 };
 
-const useAccountContext = () => useContext(AccountContext);
+const useAccountContext = () => {
+  return useContext(AccountContext)
+};
 
-export { AccountProvider, useAccountContext, StoreProvider, useStoreContext };
+const useParentContext = () => {
+  return useContext(ParentContext)
+};
+
+const useChildContext = () => {
+  return useContext(ChildContext)
+};
+export { 
+  AccountProvider, useAccountContext, 
+  StoreProvider, useStoreContext,
+  ParentProvider, useParentContext,
+  ChildProvider, useChildContext
+ };

@@ -7,7 +7,6 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-
 import './App.css';
 import Home from './pages/Home';
 import Register from './pages/Register';
@@ -19,6 +18,9 @@ import Success from './pages/Success'
 import OrderHistory from './pages/OrderHistory';
 import Detail from './pages/Detail';
 import NoMatch from './pages/NoMatch';
+import MyChores from './pages/Mychores';
+import { AccountProvider, StoreProvider, ParentProvider, ChildProvider } from './utils/GlobalState';
+
 
 
 const httpLink = createHttpLink({
@@ -45,6 +47,10 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
+      <StoreProvider>
+      <AccountProvider>
+      <ParentProvider>
+      <ChildProvider>
     <Router>
       <div className="flex-column justify-center align-center min-100-vh bg-primary">
         <Routes>
@@ -57,8 +63,12 @@ function App() {
             element={<Register />} 
           />
           <Route 
-            path="/Add/Chores/:usertype" 
+            path="/Add/Chores/Parent" 
             element={<Chores />} 
+          />
+          <Route 
+            path="/MyChores" 
+            element={<MyChores />} 
           />
           <Route 
             path="/Add/child" 
@@ -92,6 +102,10 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </ChildProvider>
+    </ParentProvider>  
+    </AccountProvider>  
+    </StoreProvider>
   </ApolloProvider>
   );
 }

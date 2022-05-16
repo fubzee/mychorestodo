@@ -12,6 +12,7 @@ mutation Login($username: String!, $password: String!) {
     }
   }
 `;
+
 export const ADD_USER = gql`
 mutation AddUser($username: String!, $usertype: String!, $password: String!, $hint: String!) {
     addUser(username: $username, usertype: $usertype, password: $password, hint: $hint) {
@@ -35,7 +36,29 @@ mutation AddParent($name: String!, $email: String!, $chart: String!, $userId: St
     }
   }
 `;
-
+export const QUERY_SINGLE_PARENT = gql`
+mutation getParent($userId: ID) {
+    getParent(user_Id: $userId) {
+      _id
+      name
+      email
+      chart
+      user_Id
+    }
+  }
+`;
+export const QUERY_SINGLE_CHILD = gql`
+mutation getChild($userId: ID) {
+    getChild(user_Id: $userId) {
+      _id
+      name
+      totalcredits
+      credittype
+      parent_Id
+      user_Id
+    }
+  }
+`;
 export const ADD_CHILD = gql`
 mutation AddChild($name: String!, $totalcredits: Int!, $credittype: String!, $parentId: String!, $userId: String!) {
     addChild(name: $name, totalcredits: $totalcredits, credittype: $credittype, parent_Id: $parentId, user_Id: $userId) {

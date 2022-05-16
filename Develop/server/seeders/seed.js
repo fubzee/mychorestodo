@@ -62,7 +62,7 @@ db.once('open', async () => {
       quantity: 500
     },
     {
-      name: 'Black Dog Institure',
+      name: 'Black Dog Institute',
       category: categories[2]._id,
       description:
         'Black Dog Institute has a clearly articulated vision for a mentally healthier world. This vision guides our 2022-2026 strategy to deliver research with real world impact to treat, manage and prevent common mental health conditions and suicide in workplaces, schools, health settings and the wider community.',

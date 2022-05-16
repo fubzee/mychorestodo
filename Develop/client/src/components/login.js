@@ -1,12 +1,12 @@
-import React, { useState, createContext } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { LOGIN } from '../utils/mutations';
 import { useNavigate } from 'react-router-dom';
 import Auth from '../utils/auth';
-import {  QUERY_SINGLE_PARENT } from '../utils/queries';
-import {  QUERY_SINGLE_CHILD  } from '../utils/queries';
-// import { Console } from 'console';
+import {  QUERY_SINGLE_PARENT } from '../utils/mutations';
+import {  QUERY_SINGLE_CHILD  } from '../utils/mutations';
+import { useAccountContext, useParentContext, useChildContext } from '../utils/GlobalState';
 
 const Wrapper = styled.section`
   padding: 4em;
@@ -49,15 +49,16 @@ const Card = styled.div`
 `;
 
 const LoginForm = () => {
+
   // Here we set two state variables for username and password using `useState`
     const [formState, setFormState] = useState({ username: '', password: '' });
-    const ParentContext = createContext();
-    const ChildContext = createContext();
+
     const [login, { error, data }] = useMutation(LOGIN);
     const navigate = useNavigate();
-    const GetParent = useQuery(QUERY_SINGLE_PARENT);
-    const GetChild  = useQuery(QUERY_SINGLE_CHILD);
-
+    const [getParent, { error:p_error, data: p_data }] = useMutation(QUERY_SINGLE_PARENT);
+    const [getChild, { error:c_error, data: c_data }] = useMutation(QUERY_SINGLE_CHILD);
+    console.log(data);
+  
     // update state based on form input changes
     const handleInput = (event) => {
       const { name, value } = event.target;
@@ -68,6 +69,9 @@ const LoginForm = () => {
       });
     };
     const handleFormSubmit = async (e) => {
+      // const {ParentContext} = React.createContext();
+      // const {ChildContext} = React.createContext();
+      // const {AccountContext} = React.createContext();
       // Preventing the default behavior of the form submit (which is to refresh the page)
       e.preventDefault();
       try {
@@ -76,22 +80,30 @@ const LoginForm = () => {
         });
         
         Auth.login(data.login.token);
+        
+         console.log("83", useAccountContext.Provider)
         if (data.login.user.usertype === "Parent") {
           try {
-            const { Parent } = await GetParent({
-              variables: {userId: data.login.user_id}});
-            ParentContext.Provider = {Parent}
-            navigate("/Chores/Parent/");  
+            const { Parent } = await getParent({
+            variables: {userId: data.login.user._id}});
+            useAccountContext.Provider = { data };
+            useParentContext.Provider = { Parent };
+            console.log(useParentContext.Provider)
+            navigate("/Add/Chores/Parent/");  
           } catch (e) {
               console.error(e);
             }
         }
         else {
           try {
-            const Child = await GetChild({
-            variables: {userId: data.login.user_id}});
-            ChildContext.Provider = {Child}
-             navigate("/Chores/Child");  
+            const Child = await getChild({
+            variables: {userId: data.login.user._id}});
+            useAccountContext.Provider = { data };
+            useChildContext.Provider = { Child };
+            console.log(useAccountContext.Provider);
+            console.log(useChildContext.Provider);
+             navigate("/Mychores/");  
+            
           } catch (e)   {
               console.error(e);
           }

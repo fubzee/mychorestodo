@@ -103,3 +103,11 @@ export function useAccountReducer(initialState) {
 export function useProductReducer(initialState) {
   return useReducer(reducer, initialState);
 }
+
+export function useParentReducer(initialState) {
+  return useReducer(reducer, initialState);
+}
+
+export function useChildReducer(initialState) {
+  return useReducer(reducer, initialState);
+}

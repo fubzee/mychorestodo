@@ -1,11 +1,12 @@
 import React from 'react';
 import Baseline from '../components/baseline';
-import Childchorelists  from '../components/childchores';
+// import ResultList  from '../components/resultlist';
 import Headline from '../components/headline';
+import Chorelist from'../components/searchchorelist';
 
 
 
-const Chores = () => {
+const MyChores = () => {
 
     return(
 
@@ -13,8 +14,8 @@ const Chores = () => {
         <Headline
         {...Headline}
         />
-        <Childchorelists
-        {...Childchorelists}
+        <Chorelist
+        {...Chorelist}
         />
          <Baseline
         {...Baseline}
@@ -24,4 +25,4 @@ const Chores = () => {
     );
 }
 
-export default Chores;
+export default MyChores;

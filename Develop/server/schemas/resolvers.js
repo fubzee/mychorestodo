@@ -16,13 +16,13 @@ const resolvers = {
       return User.findById({ _id: _id });
     },
 
-    parent: async (parent, { user_Id }) => {
-        return Parent.findOne({ user_Id: user_Id });
-      },
+    // parent: async (parent, { user_Id }) => {
+    //     return Parent.findOne({ user_Id: user_Id });
+    //   },
 
-    child: async (parent, { user_Id }) => {
-    return Child.findOne({ user_Id: user_Id });
-    },
+    // child: async (parent, { user_Id }) => {
+    // return Child.findOne({ user_Id: user_Id });
+    // },
 
     children: async (parent, { parent_Id }) => {
       return Child.find({ parent_Id: parent_Id } );
@@ -145,6 +145,14 @@ const resolvers = {
 
       const token = signToken(user);
       return { token, user };
+    },
+
+    getParent: async (parent, { user_Id }) => {
+      return Parent.findOne({ user_Id: user_Id });
+    },
+
+    getChild: async (parent, { user_Id }) => {
+      return Child.findOne({ user_Id: user_Id });
     },
 
     addParent: async (parent, { name, email, chart, user_Id }) => {

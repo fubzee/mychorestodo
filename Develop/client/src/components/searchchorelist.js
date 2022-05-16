@@ -3,8 +3,8 @@ import ResultList  from './resultlist';
 import { useQuery } from '@apollo/client';
 import { QUERY_ALL_PARENT_CHORES } from '../utils/queries';
 import { QUERY_ALL_CHILDREN_CHORES } from '../utils/queries';
-// import { UPDATE_ACCOUNT_STATUS } from '../utils/actions';
-import { useAccountContext } from '../utils/GlobalState';
+import { useParentContext, useChildContext, useAccountContext, ChildProvider, ParentProvider, AccountProvider } from '../utils/GlobalState'
+
 
 
 const Choreslist = () => {
@@ -12,18 +12,23 @@ const Choreslist = () => {
   const [results, setResults] = useState('');
   const getParentChores = useQuery(QUERY_ALL_PARENT_CHORES);
   const getChildChores  = useQuery(QUERY_ALL_CHILDREN_CHORES);
-  const [state, dispatch] = useAccountContext();
-  console.log(state.user_Id, state.usertype)
+
+  const [ Parent ]  = useParentContext(ParentProvider);
+  const [ Child ] = useChildContext(ChildProvider);
+  const [ state ] = useAccountContext(AccountProvider);
+  console.log(state);
   const ChoreList = () => {
 
-    switch (state.usertype) {
+    switch (state.login.user.usertype) {
       case "Parent": 
-          const [Parentchores] = getParentChores(useContext.ParentContext.user_Id)
-          setResults(Parentchores.data.data)
+          console.log(state.login.user._Id)
+          const [Parentchores] = getParentChores(Parent.data.getParent._Id)
+          setResults(results, Parentchores)
           break;
       case "Child": 
-          const [Childchores] = getChildChores(useContext.ChildContext.user_Id)
-          setResults(Childchores.data.data)
+        console.log(state.login.user._Id)
+          const [Childchores] = getChildChores(Child.data.getChild._Id)
+          setResults(results, Childchores)
           break;
       default:
         console.error();
@@ -36,8 +41,11 @@ const Choreslist = () => {
 
   return (
     <div>
-      {/* Pass our results to the ResultsList component to map over */}
-      <ResultList results={ChoreList} />
+          {results ? (
+
+              <ResultList results={ChoreList} />    
+          
+          ) : null}
     </div>
     );
   };
