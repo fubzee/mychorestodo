@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 
 const Wrapper = styled.section`
-padding: 4em;
+padding: 1em;
 background: #FFF8DC;
 `;
 const Savebtn = styled.button`
@@ -149,15 +149,6 @@ const Registration = () => {
             value={formState.chart}
             onChange={handleChange}
           />  
-          {/* <Input
-            className="form-input"
-            placeholder="Parent"
-            defaultValue={"Parent"}
-            name="usertype"
-            type="text"
-            value={formState.usertype}
-            onChange={handleChange}
-          /> */}
         <Savebtn 
             type="Submit" onClick={handleFormSubmit}>
           Submit

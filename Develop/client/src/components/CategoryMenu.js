@@ -61,7 +61,7 @@ function CategoryMenu() {
   const { categories } = state;
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
-
+  console.log(categoryData);
   useEffect(() => {
     if (categoryData) {
       dispatch({
@@ -91,6 +91,7 @@ function CategoryMenu() {
   return (
    <Card>
       <Text>What type of cause are you looking to donate to:</Text>
+      {console.log('>>',categories)}
         {categories.map((item) => (
             <Savebtn
               key={item._id}

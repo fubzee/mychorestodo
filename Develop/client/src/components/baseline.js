@@ -4,7 +4,7 @@ import Logoutbtn from './logoutbtn';
 import Donatebtn from './donatebtn';
 
 const Wrapper = styled.section`
-  padding: 4em;
+  padding: 1em;
   background: #FFF8DC;
 `;
 
@@ -12,10 +12,8 @@ function Baseline() {
    
 return (
     <Wrapper>
-      
       <Logoutbtn />
       <Donatebtn />
-     
     </Wrapper>
   );
 }

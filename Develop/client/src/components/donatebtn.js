@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.section`
-  padding: 4em;
+  padding: 1em;
   background: #FFF8DC;
 `;
 
@@ -15,7 +15,7 @@ const Regbtn = styled.button`
   border-radius: 3px;
   padding: 0.25em 1em;
   margin: 1rem 1rem;
-  width: 6rem;
+  width: 8rem;
   background: White;
   color: #2F4F4F;
   border: 3px solid #538e73ba;

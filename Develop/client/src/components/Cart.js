@@ -55,7 +55,7 @@ padding: 0.5em 1em;
 color: #2F4F4F;
 font-size: 1em;
 `;
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+const stripePromise = loadStripe('pk_test_51L0PLVBkde7Q0covUcgYGHana8AkzvvcMZ0VcZIj5QYxi4GG4LeQWM36wZUsxmVKPgZht0uRbYe3bAZ85eK9AnxW0004uFWYTx');
 
 
 const Cart = () => {
