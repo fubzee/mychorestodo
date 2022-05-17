@@ -9,6 +9,7 @@ import styled from 'styled-components';
 const Wrapper = styled.section`
 padding: 4em;
 background: #FFF8DC;
+
 `;
 const Savebtn = styled.button`
 display: inline-block;
@@ -49,6 +50,7 @@ font-family: 'Fredericka the Great', cursive;
 padding: 0.5em 1em;
 color: #2F4F4F;
 font-size: 1em;
+align: center; 
 `;
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
@@ -86,6 +88,7 @@ function ProductItem(item) {
 
   return (
   <Wrapper>
+    <div></div>
       <Card>
       <Link to={`/products/${_id}`}>
         <img

@@ -3,6 +3,7 @@ import ProductList from "../components/ProductList";
 import CategoryMenu from "../components/CategoryMenu";
 import Cart from "../components/Cart";
 import styled from "styled-components"
+import Headline from "../components/headline";
 // import Headline from "../components/headline";
 const Wrapper = styled.section`
 padding: 4em;
@@ -28,7 +29,7 @@ margin: 0.5rem 1rem;
 width: 8rem;
 background: White;
 color: #2F4F4F;
-border: 3px solid #538e73ba;
+border: 3px solid #c46137;
 font-size: 1em;
 `;
 const Card = styled.div`
@@ -50,6 +51,7 @@ font-size: 1em;
 `;
 const Donate = () => {
       return (
+       
         <Wrapper>
           <CategoryMenu />
           <ProductList />

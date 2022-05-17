@@ -45,13 +45,26 @@ margin: 30px auto;
 background-color: #FFF8DC;
 }
 `;
+
 const Text = styled.p`
-font-family: 'Fredericka the Great', cursive;
+font-family: 'Fredericka the Great', cursive
 padding: 0.5em 1em;
 color: #2F4F4F;
 font-size: 1em;
 `;
 
+const FlexBox = styled.div`
+display: flex;
+align-items: center;
+border:none;
+`;
+
+const H1 = styled.h1`
+font-family: 'Fredericka the Great', cursive
+padding: 0.5em 1em;
+color:  #538e73ba;
+font-size: 3em;
+`;
 
 function ProductList() {
   const [state, dispatch] = useStoreContext();
@@ -91,7 +104,10 @@ function ProductList() {
 
   return (
     <Wrapper>
-      <Text>Deserving Charities:</Text>
+     
+      <H1>Deserving Charities:</H1>
+     
+     
       {state.products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (

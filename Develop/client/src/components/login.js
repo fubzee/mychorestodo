@@ -9,7 +9,7 @@ import {  QUERY_SINGLE_CHILD  } from '../utils/mutations';
 import { useAccountContext, useParentContext, useChildContext, useUserContext } from '../utils/GlobalState';
 
 const Wrapper = styled.section`
-  padding: 4em;
+  padding: 0.5em;
   background: #FFF8DC;
 `;
 const Savebtn = styled.button`

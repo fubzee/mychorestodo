@@ -3,10 +3,27 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.section`
-  padding: 4em;
+  padding: 0.5em;
   background: #FFF8DC;
 `;
 
+const ImgCard = styled.div`
+box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+max-width: 200px;
+background-color: #FFF8DC;
+`;
+
+const Card = styled.div`
+  max-width: 200px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  margin: 30px auto;
+  @media (max-width: 1000px) {
+    background-color: #FFF8DC;
+  }
+`;
 const Regbtn = styled.button`
 
   /* Adapt the colors based on state */
@@ -26,14 +43,15 @@ function Registerbtn() {
 return (
     <div>
       <Wrapper>
-        <Regbtn>
-        <Link 
-            type="button"
-            // className="button"
-            to={`/Register`}>Register
-        </Link>
-        
-        </Regbtn>
+        <Card>
+          <Regbtn>  
+            <Link 
+              type="button"
+              // className="button"
+              to={`/Register`}>Register
+            </Link>
+          </Regbtn>
+        </Card>
       </Wrapper>
     </div>
   );
