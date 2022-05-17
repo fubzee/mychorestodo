@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/client';
+
 import { ADD_CHORE } from '../utils/mutations';
+import {QUERY_PARENT_CHILD} from '../utils/mutations'
 import { Link } from 'react-router-dom';
 import Headline from './headline';
-// import Auth from '../utils/auth';
+import { useParentContext } from '../utils/GlobalState';
+
+import Auth from '../utils/auth';
+
 
 const Wrapper = styled.section`
 padding: 4em;
@@ -58,11 +63,14 @@ const AddChore = () => {
     description: '',
     num_credits: '',
     repeat:'',
-    parentId: '',
-    childId: '',
+
   
   });
+  const {Parent} = useParentContext();
 
+  const [getName, {n_error, n_data} ] = useMutation(QUERY_PARENT_CHILD)
+  console.log('Parent', Parent);
+  
   const [addChore, { error, data }] = useMutation(ADD_CHORE);
   
   // update state based on form input changes
@@ -79,18 +87,34 @@ const AddChore = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(formState);
+    console.log(formState.num_credits)
     const numcreditsint = parseInt(formState.num_credits)
     const datecreated = Date()
+    console.log("Credits and date", numcreditsint, datecreated )
     try {
+      const  {data: nameData } = await getName({
+        variables: {name: formState.childName}});
+        let useID = ' ';
+        console.log("nameData",nameData.childname);
+        console.log("length", nameData.childname.length)
+        
+        for (let i = 0; i < nameData.childname.length; i++){
+          console.log(nameData.childname[i].parent_Id, Parent._id)
+            if (nameData.childName[i].parent_Id === Parent._id) {
+            useID = nameData.childname[i]._id;
+            console.log("UseID",useID)
+            return
+            }
+        }
       const { data } = await addChore({variables: { 
         "numcredits":numcreditsint, 
         "status" : false,
         "datecreated": datecreated,
+        "parentId": Parent._id,
+        "childId": useID,
         ...formState }})
     console.log(data);
-    // Auth.login(data.addUser.token);
-    // console.log(data.addUser._id)
-    // await addParent({variables: { "userId":data.addUser._id, ...formState }})
+
     } catch (e) {
       console.error(e.message);
     }
@@ -106,54 +130,47 @@ const AddChore = () => {
       </Text>
     ) : (
       <Card>
-        <Input>
+         <Text>Details about the task</Text>
+        <Input
           className="form-input"
           placeholder="Name of Chore/Task"
           name="name"
           type="text"
           value={formState.name}
           onChange={handleChange}
-          </Input>
-          <Input>
+          />
+          <Input
           className="form-input"
           placeholder="Description"
           name="description"
           type="text"
           value={formState.description}
           onChange={handleChange}
-          </Input>
-          <Input>
+          />
+          <Input
           className="form-input"
           placeholder="How many credits"
           name="num_credits"
           type="Number"
           value={formState.num_credits}
           onChange={handleChange}
-          </Input>
-          <Input>
+          />
+          <Input
           className="form-input"
-          placeholder="Parent_Id"
-          name="parentId"
+          placeholder="Child"
+          name="childName"
           type="text"
-          value={formState.parentId}
+          value={formState.childName}
           onChange={handleChange}
-          </Input>
-          <Input>
-          className="form-input"
-          placeholder="childId"
-          name="childId"
-          type="text"
-          value={formState.childId}
-          onChange={handleChange}
-          </Input>
-          <Input>
+          />
+          <Input
           className="form-input"
           placeholder="repeat"
           name="repeat"
           type="String"
           value={formState.repeat}
           onChange={handleChange}
-          </Input>
+          />
         <Savebtn
               type="Submit" onClick={handleFormSubmit}>
           Submit

@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 
+
 export const LOGIN = gql`
 mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
@@ -210,4 +211,72 @@ mutation UpdChore($choreId: ID!, $name: String!, $description: String!, $status:
       }
     }
   }
+`
+export const QUERY_ALL_CHILDREN = gql`
+mutation Children($parentId: ID) {
+    children(parent_Id: $parentId) {
+      _id
+      name
+      totalcredits
+      credittype
+      user_Id
+    }
+  }
+`;
+export const QUERY_SINGLE_CHORE = gql`
+mutation Chore($id: ID) {
+    chore(_id: $id) {
+      _id
+      name
+      description
+      status
+      numcredits
+      parent_Id
+      child_Id
+      repeat
+      datecreated
+      datecompleted
+    }
+  }
+`;
+
+export const QUERY_ALL_PARENT_CHORES = gql`
+mutation Parentchores($parentId: ID) {
+    parentchores(parent_Id: $parentId) {
+      _id
+      name
+      description
+      status
+      numcredits
+      repeat
+      datecreated
+      datecompleted
+      child_Id
+      parent_Id
+    }
+  }
+`;
+
+export const QUERY_ALL_CHILDREN_CHORES = gql`
+mutation Childchores($childId: ID) {
+    childchores(child_Id: $childId) {
+      _id
+      name
+      description
+      status
+      numcredits
+      parent_Id
+      child_Id
+    }
+  }
+`;
+
+export const QUERY_PARENT_CHILD = gql`
+mutation Childname($name: String!) {
+   childname(name: $name) {
+    _id
+    name 
+    parent_Id
+  }
+}
 `;

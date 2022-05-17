@@ -15,29 +15,6 @@ const resolvers = {
     user: async (parent, { _id }) => {
       return User.findById({ _id: _id });
     },
-
-    // parent: async (parent, { user_Id }) => {
-    //     return Parent.findOne({ user_Id: user_Id });
-    //   },
-
-    // child: async (parent, { user_Id }) => {
-    // return Child.findOne({ user_Id: user_Id });
-    // },
-
-    children: async (parent, { parent_Id }) => {
-      return Child.find({ parent_Id: parent_Id } );
-      },
-
-    chore: async (parent, { _id }) => {
-    return Chore.findById({ _id: _id });
-    },
-    
-    parentchores: async (parent, { parent_Id }) => {
-    return Chore.find({parent_Id: parent_Id });
-    },
-    childchores: async (parent, { child_Id }) => {
-    return Chore.find({ child_Id: child_Id });
-    },
   },
   Query: {
     categories: async () => {
@@ -213,6 +190,27 @@ const resolvers = {
 
       return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
     },
+    ///
+    children: async (parent, { parent_Id }) => {
+      return Child.find({ parent_Id: parent_Id } );
+      },
+
+    chore: async (parent, { _id }) => {
+    return Chore.findById({ _id: _id });
+    },
+    
+    parentchores: async (parent, { parent_Id }) => {
+    return Chore.find({parent_Id: parent_Id });
+    },
+
+    childchores: async (parent, { child_Id }) => {
+    return Chore.find({ child_Id: child_Id });
+    },
+
+    childname: async (parent, { name }) => {
+    return Child.find({ name: name });
+    }
+
   },
 };
 

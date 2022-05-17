@@ -4,6 +4,7 @@ import Addchildbtn from './addchildbtn';
 import Addchorebtn from './addchorebtn';
 import Headline from './headline';
 // import Choreslist from './searchchorelist';
+import FindChildren from './searchchildren';
 
 
 // Create a Title component that'll render an <h1> tag with some styles
@@ -20,7 +21,7 @@ export default function Parentchores() {
             <Headline />
             <Addchildbtn />
             <Addchorebtn />
-            {/* <Choreslist /> */}
+            {/* <FindChildren /> */}
         </Wrapper> 
       </div>
     )

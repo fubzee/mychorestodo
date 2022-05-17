@@ -103,6 +103,11 @@ const typeDefs = gql`
         removeUser(user_Id: ID!) : User
         addOrder(products: [ID]!): Order
         updateProduct(_id: ID!, quantity: Int!): Product
+        children(parent_Id: ID) : [Child]
+        chore(_id: ID): Chore
+        parentchores(parent_Id: ID) : [Chore]
+        childchores(child_Id: ID) : [Chore]
+        childname(name: String!): [Child]
     }
 `;
     module.exports = typeDefs;

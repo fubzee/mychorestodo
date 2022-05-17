@@ -6,6 +6,7 @@ import { ADD_CHILD } from '../utils/mutations';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import Headline from './headline';
+import { useParentContext } from '../utils/GlobalState';
 
 
 
@@ -37,7 +38,7 @@ border: 3px solid #538e73ba;
 font-size: 1em;
 `;
 const Card = styled.div`
-max-width: 200px;
+max-width: 300px;
 border: 1px solid rgba(0, 0, 0, 0.1);
 border-radius: 5px;
 overflow: hidden;
@@ -58,7 +59,6 @@ const AddChild = () => {
  
   const [formState, setFormState] = useState({
     username: '',
-    usertype: '',
     password: '',
     hint: '',
     name: '',
@@ -66,7 +66,7 @@ const AddChild = () => {
     credittype: '',
     
   });
-
+  const { Parent } = useParentContext();
   const [addUser, { error, data }] = useMutation(ADD_USER);
   const [addChild, {c_err, c_data1}] = useMutation(ADD_CHILD);
   // update state based on form input changes
@@ -84,17 +84,19 @@ const AddChild = () => {
     event.preventDefault();
     console.log(formState);
     try {
-      const { data } = await addUser({variables: { ...formState }})
+      const { data } = await addUser({variables: {"usertype": "Child", ...formState }})
       console.log(data);
       Auth.login(data.addUser.token);
       console.log(data.addUser._id)
       console.log(event.totalcredits)
       const totalcreditsint = parseInt(formState.total_credits)
       console.log(totalcreditsint);
+      console.log("userid", data.addUser._id);
+      console.log("parentid", Parent);
       const { c_data } = await addChild({variables: { 
       "userId":data.addUser._id, 
       "totalcredits":totalcreditsint, 
-      "parent_ID": useContext.Parent._id, 
+      "parentId": Parent._id, 
       ...formState }})
       }catch (e) {
         console.error(e.message);
@@ -113,6 +115,7 @@ const AddChild = () => {
     ) : (
       <Card>
         <Text>Child's Information</Text>
+        <Text>Username</Text>
         <Input
           className="form-input"
           placeholder="Child's username"
@@ -121,7 +124,7 @@ const AddChild = () => {
           value={formState.username}
           onChange={handleChange}
         />
-         <Input
+         {/* <Input
           className="form-input"
           placeholder="Child"
           defaultValue="Child"
@@ -129,7 +132,8 @@ const AddChild = () => {
           type="text"
           value={formState.usertype}
           onChange={handleChange}
-          />
+          /> */}
+          <Text>Password Hint</Text>
           <Input
           className="form-input"
           placeholder="Password Hint"
@@ -138,6 +142,7 @@ const AddChild = () => {
           value={formState.hint}
           onChange={handleChange}
           />
+          <Text>Password</Text>
           <Input
           className="form-input"
           placeholder="******"
@@ -146,6 +151,7 @@ const AddChild = () => {
           value={formState.password}
           onChange={handleChange}
           />
+           <Text>Name</Text>
           <Input
           className="form-input"
           placeholder="Name"
@@ -154,13 +160,15 @@ const AddChild = () => {
           value={formState.name}
           onChange={handleChange}
           />
+           <Text>Reward Total</Text>
           <Input
           className="form-input"
           name="total_credits"
-          type="number"
+          type="Number"
           value={formState.total_credits}
           onChange={handleChange}
           />
+           <Text>Reward type (e.g. Stars/Dollars)</Text>
           <Input
           className="form-input"
           placeholder="Credit type, e.g. Stars or Dollars"
@@ -169,14 +177,6 @@ const AddChild = () => {
           value={formState.credittype}
           onChange={handleChange}
           />
-          {/* <Input
-          className="form-input"
-          placeholder="parentId"
-          name="parentId"
-          type="text"
-          value={formState.parentId}
-          onChange={handleChange}
-          /> */}
           <Savebtn 
             type="Submit" onClick={handleFormSubmit}>
              Submit

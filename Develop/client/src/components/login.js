@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Auth from '../utils/auth';
 import {  QUERY_SINGLE_PARENT } from '../utils/mutations';
 import {  QUERY_SINGLE_CHILD  } from '../utils/mutations';
-import { useAccountContext, useParentContext, useChildContext } from '../utils/GlobalState';
+import { useAccountContext, useParentContext, useChildContext, useUserContext } from '../utils/GlobalState';
 
 const Wrapper = styled.section`
   padding: 4em;
@@ -57,8 +57,10 @@ const LoginForm = () => {
     const navigate = useNavigate();
     const [getParent, { error:p_error, data: p_data }] = useMutation(QUERY_SINGLE_PARENT);
     const [getChild, { error:c_error, data: c_data }] = useMutation(QUERY_SINGLE_CHILD);
-    console.log(data);
   
+    const { setParent } = useParentContext();  
+    const { setChild } = useChildContext();
+    // const { setUser } = useUserContext();
     // update state based on form input changes
     const handleInput = (event) => {
       const { name, value } = event.target;
@@ -78,17 +80,19 @@ const LoginForm = () => {
         const { data } = await login({
           variables: { ...formState },
         });
-        
+      
         Auth.login(data.login.token);
-        
-         console.log("83", useAccountContext.Provider)
+        // setUser(data.login.user.usertype);
+         console.log(useAccountContext.Provider)
         if (data.login.user.usertype === "Parent") {
           try {
-            const { Parent } = await getParent({
+          const { data: parentData } = await getParent({
             variables: {userId: data.login.user._id}});
-            useAccountContext.Provider = { data };
-            useParentContext.Provider = { Parent };
-            console.log(useParentContext.Provider)
+           // useAccountContext.Provider = { data };
+           // useParentContext.Provider = { Parent };
+           console.log(parentData);
+            setParent(parentData.getParent);
+            console.log(setParent)
             navigate("/Add/Chores/Parent/");  
           } catch (e) {
               console.error(e);
@@ -96,12 +100,13 @@ const LoginForm = () => {
         }
         else {
           try {
-            const Child = await getChild({
+            const { data: childData }= await getChild({
             variables: {userId: data.login.user._id}});
-            useAccountContext.Provider = { data };
-            useChildContext.Provider = { Child };
-            console.log(useAccountContext.Provider);
-            console.log(useChildContext.Provider);
+            // useAccountContext.Provider = { data };
+            // useChildContext.Provider = { Child };
+            console.log(childData);
+              setChild(childData.getChild);
+            console.log(setChild);
              navigate("/Mychores/");  
             
           } catch (e)   {

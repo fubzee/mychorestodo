@@ -111,3 +111,7 @@ export function useParentReducer(initialState) {
 export function useChildReducer(initialState) {
   return useReducer(reducer, initialState);
 }
+
+export function useUserReducer(initialState) {
+  return useReducer(reducer, initialState);
+}
