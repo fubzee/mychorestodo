@@ -1,70 +1,70 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../utils/mutations';
-import { ADD_PARENT } from '../utils/mutations';
-import { Link } from 'react-router-dom';
-import Auth from '../utils/auth';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "../utils/mutations";
+import { ADD_PARENT } from "../utils/mutations";
+import { Link } from "react-router-dom";
+import Auth from "../utils/auth";
 
 const Wrapper = styled.section`
-padding: 1em;
-background: #FFF8DC;
+  padding: 0.5em;
+  background: #fff8dc;
 `;
 const Savebtn = styled.button`
-display: inline-block;
-font-family: 'Fredericka the Great', cursive;
-border-radius: 3px;
-padding: 0.25em 1em;
-margin: 1rem 1rem;
-width: 6rem;
-background: White;
-color: #2F4F4F;
-border: 3px solid #538e73ba;
-font-size: 1em;
+  display: inline-block;
+  font-family: "Fredericka the Great", cursive;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  margin: 1rem 1rem;
+  width: 6rem;
+  background: White;
+  color: #2f4f4f;
+  border: 3px solid #538e73ba;
+  font-size: 1em;
 `;
 const Input = styled.input`
-display: inline-block;
-border-radius: 3px;
-padding: 0.25em 1em;
-margin: 0.5rem 1rem;
-width: 8rem;
-background: White;
-color: #2F4F4F;
-border: 3px solid #538e73ba;
-font-size: 1em;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  margin: 0.5rem 1rem;
+  width: 8rem;
+  background: White;
+  color: #2f4f4f;
+  border: 3px solid #538e73ba;
+  font-size: 1em;
 `;
 const Card = styled.div`
-max-width: 200px;
-border: 1px solid rgba(0, 0, 0, 0.1);
-border-radius: 5px;
-overflow: hidden;
-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-margin: 30px auto;
-@media (max-width: 1000px) {
-background-color: #FFF8DC;
-}
+  max-width: 200px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  margin: 30px auto;
+  @media (max-width: 1000px) {
+    background-color: #fff8dc;
+  }
 `;
 const Text = styled.p`
-font-family: 'Fredericka the Great', cursive;
-padding: 0.5em 1em;
-color: #2F4F4F;
-font-size: 1em;
+  font-family: "Fredericka the Great", cursive;
+  padding: 0.5em 1em;
+  color: #2f4f4f;
+  font-size: 1em;
 `;
 
 const Registration = () => {
- 
   const [formState, setFormState] = useState({
-    username: '',
+    username: "",
     // usertype: '',
-    password: '',
-    hint: '',
-    name: '',
-    email: '',
-    chart: ''
+    password: "",
+    hint: "",
+    name: "",
+    email: "",
+    chart: "",
   });
 
   const [addUser, { error, data }] = useMutation(ADD_USER);
-  const [addParent, {err1, data1}] = useMutation(ADD_PARENT);
+  const [addParent, { err1, data1 }] = useMutation(ADD_PARENT);
   // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -81,24 +81,31 @@ const Registration = () => {
     console.log(formState);
 
     try {
-      const { data } = await addUser({variables: { "usertype": "Parent", ...formState }})
-    console.log(data);
-    Auth.login(data.addUser.token);
-    console.log(data.addUser._id)
-    await addParent({variables: { "userId":data.addUser._id, ...formState }})
+      const { data } = await addUser({
+        variables: { usertype: "Parent", ...formState },
+      });
+      console.log(data);
+      Auth.login(data.addUser.token);
+      console.log(data.addUser._id);
+      await addParent({
+        variables: { userId: data.addUser._id, ...formState },
+      });
     } catch (e) {
       console.error(e.message);
     }
-  }
+  };
 
   return (
     <Wrapper>
-    {data ? (
-      <Text>
-        Welcome, you have successfully registered{' '}
-        <Link to="/">Please head back to the login page and login to start adding some chores to do.</Link>
-      </Text>
-    ) : (
+      {data ? (
+        <Text>
+          Welcome, you have successfully registered{" "}
+          <Link to="/">
+            Please head back to the login page and login to start adding some
+            chores to do.
+          </Link>
+        </Text>
+      ) : (
         <Card onSubmit={handleFormSubmit}>
           <Text>Registration Details</Text>
           <Input
@@ -118,12 +125,12 @@ const Registration = () => {
             onChange={handleChange}
           />
           <Input
-              className="form-input"
-              placeholder="Your username"
-              name="username"
-              type="text"
-              value={formState.username}
-              onChange={handleChange}
+            className="form-input"
+            placeholder="Your username"
+            name="username"
+            type="text"
+            value={formState.username}
+            onChange={handleChange}
           />
           <Input
             className="form-input"
@@ -148,18 +155,15 @@ const Registration = () => {
             type="text"
             value={formState.chart}
             onChange={handleChange}
-          />  
-        <Savebtn 
-            type="Submit" onClick={handleFormSubmit}>
-          Submit
-        </Savebtn>
-      </Card>
-    )}
-    {error && (
-      <div className="my-3 p-3 bg-danger text-white">
-        {error.message}
-      </div>
-    )}
+          />
+          <Savebtn type="Submit" onClick={handleFormSubmit}>
+            Submit
+          </Savebtn>
+        </Card>
+      )}
+      {error && (
+        <div className="my-3 p-3 bg-danger text-white">{error.message}</div>
+      )}
     </Wrapper>
   );
 };

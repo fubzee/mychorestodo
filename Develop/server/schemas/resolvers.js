@@ -3,21 +3,16 @@ const { User } = require('../models');
 const { Parent } = require('../models');
 const { Child } = require('../models');
 const { Chore } = require('../models');
-const { Product, Category, Order } = require('../models');
+const {Product, Category, Order } = require('../models');
 const { signToken } = require('../utils/auth');
-const stripe = require('stripe')('sk_test_51L0PLVBkde7Q0covwMq2dM7jl9M5Aplv5msgcr2NLKiugwz80vY2cRcsROgPvRhK13Ab7080BxEyflU7vR6dspyA008sgpnhVK')
+const stripe = require('stripe')('sk_test_51L0PLVBkdesk_test_51L0PLVBkde7Q0covwMq2dM7jl9M5Aplv5msgcr2NLKiugwz80vY2cRcsROgPvRhK13Ab7080BxEyflU7vR6dspyA008sgpnhVK7Q0covwMq2dM7jl9M5Aplv5msgcr2NLKiugwz80vY2cRcsROgPvRhK13Ab7080BxEyflU7vR6dspyA008sgpnhVK')
 
 const resolvers = {
   Query: {
-    username: async (parent, { username }) => {
-      return User.findOne({ username:username } );
-    },
-
     user: async (parent, { _id }) => {
       return User.findById({ _id: _id });
     },
-  },
-  Query: {
+
     categories: async () => {
       return await Category.find();
     },
@@ -41,6 +36,7 @@ const resolvers = {
     },
     user: async (parent, args, context) => {
       if (context.user) {
+        console.log("user in context", context.user);
         const user = await User.findById(context.user._id).populate({
           path: 'orders.products',
           populate: 'category'
@@ -65,7 +61,10 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
+
     checkout: async (parent, args, context) => {
+      console.log(context);
+      // console.log("Referrer", context.header.referrer);
       try {
         const url = new URL(context.headers.referer).origin;
         const order = new Order({ products: args.products });
@@ -110,7 +109,7 @@ const resolvers = {
     addUser: async (parent, { username, usertype, password, hint }) => {
       const user = await User.create({ username, usertype, password, hint });
       const token = signToken(User);
-      return user;
+      return { token, user };
      },
 
     login: async (parent, { username, password }) => {
@@ -126,6 +125,7 @@ const resolvers = {
       }
 
       const token = signToken(user);
+      console.log("Resolver",token);
       return { token, user };
     },
 

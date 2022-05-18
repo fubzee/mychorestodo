@@ -1,63 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 
-import Cart from '../components/Cart';
-import { useStoreContext } from '../utils/GlobalState';
+import Cart from "../components/Cart";
+import { useStoreContext } from "../utils/GlobalState";
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
   UPDATE_PRODUCTS,
-} from '../utils/actions';
-import { QUERY_PRODUCTS } from '../utils/queries';
-import { idbPromise } from '../utils/helpers';
+} from "../utils/actions";
+import { QUERY_PRODUCTS } from "../utils/queries";
+import { idbPromise } from "../utils/helpers";
 
-import styled from 'styled-components';
+import styled from "styled-components";
+import Headline from "../components/headline";
+import Baseline from "../components/baseline";
 
 const Wrapper = styled.section`
-padding: 4em;
-background: #FFF8DC;
+  padding: 0.5em;
+  background: #fff8dc;
 `;
 const Savebtn = styled.button`
-display: inline-block;
-font-family: 'Fredericka the Great', cursive;
-border-radius: 3px;
-padding: 0.25em 1em;
-margin: 1rem 1rem;
-min-width: 6rem;
-background: White;
-color: #2F4F4F;
-border: 3px solid #538e73ba;
-font-size: 1em;
+  display: inline-block;
+  font-family: "Fredericka the Great", cursive;
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  margin: 1rem 1rem;
+  min-width: 6rem;
+  background: White;
+  color: #2f4f4f;
+  border: 3px solid #538e73ba;
+  font-size: 1em;
 `;
 const Input = styled.input`
-display: inline-block;
-border-radius: 3px;
-padding: 0.25em 1em;
-margin: 0.5rem 1rem;
-width: 8rem;
-background: White;
-color: #2F4F4F;
-border: 3px solid #538e73ba;
-font-size: 1em;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  margin: 0.5rem 1rem;
+  width: 8rem;
+  background: White;
+  color: #2f4f4f;
+  border: 3px solid #538e73ba;
+  font-size: 1em;
 `;
 const Card = styled.div`
-max-width: 200px;
-border: 1px solid rgba(0, 0, 0, 0.1);
-border-radius: 5px;
-overflow: hidden;
-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-margin: 30px auto;
-@media (max-width: 1000px) {
-background-color: #FFF8DC;
-}
+  max-width: 200px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  margin: 30px auto;
+  @media (max-width: 1000px) {
+    background-color: #fff8dc;
+  }
 `;
 const Text = styled.p`
-font-family: 'Fredericka the Great', cursive;
-padding: 0.5em 1em;
-color: #2F4F4F;
-font-size: 1em;
+  font-family: "Fredericka the Great", cursive;
+  padding: 0.5em 1em;
+  color: #2f4f4f;
+  font-size: 1em;
 `;
 function Detail() {
   const [state, dispatch] = useStoreContext();
@@ -82,12 +85,12 @@ function Detail() {
       });
 
       data.products.forEach((product) => {
-        idbPromise('products', 'put', product);
+        idbPromise("products", "put", product);
       });
     }
     // get cache from idb
     else if (!loading) {
-      idbPromise('products', 'get').then((indexedProducts) => {
+      idbPromise("products", "get").then((indexedProducts) => {
         dispatch({
           type: UPDATE_PRODUCTS,
           products: indexedProducts,
@@ -104,7 +107,7 @@ function Detail() {
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
-      idbPromise('cart', 'put', {
+      idbPromise("cart", "put", {
         ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
@@ -113,7 +116,7 @@ function Detail() {
         type: ADD_TO_CART,
         product: { ...currentProduct, purchaseQuantity: 1 },
       });
-      idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
+      idbPromise("cart", "put", { ...currentProduct, purchaseQuantity: 1 });
     }
   };
 
@@ -123,43 +126,39 @@ function Detail() {
       _id: currentProduct._id,
     });
 
-    idbPromise('cart', 'delete', { ...currentProduct });
+    idbPromise("cart", "delete", { ...currentProduct });
   };
 
   return (
     <>
+      <Headline></Headline>
       {currentProduct && cart ? (
         <Wrapper>
           <Text>
-          <Link to="/Donate/">← Back to Charities</Link>
-         
+            <Link to="/Donate/">← Back to Charities</Link>
 
-          <Text>{currentProduct.name}</Text>
-          
-          <img
-            src={`/${currentProduct.image}`}
-            alt={currentProduct.name}
-            />
+            <Text>{currentProduct.name}</Text>
 
-          <Text>{currentProduct.description}</Text>
+            <img src={`/${currentProduct.image}`} alt={currentProduct.name} />
 
-          <Text>
-            <strong>Price:</strong>${currentProduct.price}{' '}
-            <Savebtn onClick={addToCart}>Add to Cart</Savebtn>
-            <Savebtn
-              disabled={!cart.find((p) => p._id === currentProduct._id)}
-              onClick={removeFromCart}
-            >
-              Remove from Cart
-            </Savebtn>
+            <Text>{currentProduct.description}</Text>
+
+            <Text>
+              <strong>Price:</strong>${currentProduct.price}{" "}
+              <Savebtn onClick={addToCart}>Add to Cart</Savebtn>
+              <Savebtn
+                disabled={!cart.find((p) => p._id === currentProduct._id)}
+                onClick={removeFromCart}
+              >
+                Remove from Cart
+              </Savebtn>
+            </Text>
           </Text>
-
-
-          </Text>
+          <Cart />
         </Wrapper>
       ) : null}
-         {loading ? <img src="./spinner.gif" alt="loading" /> : null} 
-      <Cart />
+      {loading ? <img src="./spinner.gif" alt="loading" /> : null}
+      <Baseline></Baseline>
     </>
   );
 }

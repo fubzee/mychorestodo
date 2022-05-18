@@ -1,15 +1,11 @@
-import React, { useEffect } from 'react';
-import { useQuery } from '@apollo/client';
-import { useStoreContext } from '../utils/GlobalState';
-import {
-  UPDATE_CATEGORIES,
-  UPDATE_CURRENT_CATEGORY,
-} from '../utils/actions';
-import { QUERY_CATEGORIES } from '../utils/queries';
-import { idbPromise } from '../utils/helpers';
+import React, { useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { useStoreContext } from "../utils/GlobalState";
+import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY } from "../utils/actions";
+import { QUERY_CATEGORIES } from "../utils/queries";
+import { idbPromise } from "../utils/helpers";
 
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 const Savebtn = styled.button`
 display: inline-block;
@@ -50,10 +46,10 @@ background-color: #FFF8DC;
 }
 `;
 const Text = styled.p`
-font-family: 'Fredericka the Great', cursive;
-padding: 0.5em 1em;
-color: #c46137ba;
-font-size: 1em;
+  font-family: "Fredericka the Great", cursive;
+  padding: 0.5em 1em;
+  color: #c46137ba;
+  font-size: 1em;
 `;
 function CategoryMenu() {
   const [state, dispatch] = useStoreContext();
@@ -69,10 +65,10 @@ function CategoryMenu() {
         categories: categoryData.categories,
       });
       categoryData.categories.forEach((category) => {
-        idbPromise('categories', 'put', category);
+        idbPromise("categories", "put", category);
       });
     } else if (!loading) {
-      idbPromise('categories', 'get').then((categories) => {
+      idbPromise("categories", "get").then((categories) => {
         dispatch({
           type: UPDATE_CATEGORIES,
           categories: categories,
@@ -89,16 +85,17 @@ function CategoryMenu() {
   };
 
   return (
-   <Card>
+    <Card>
       <Text>What type of cause are you looking to donate to:</Text>
-      {console.log('>>',categories)}
-        {categories.map((item) => (
-            <Savebtn
-              key={item._id}
-              onClick={() => {
-                handleClick(item._id);
-              }}
-          >{item.name}
+      {console.log(">>", categories)}
+      {categories.map((item) => (
+        <Savebtn
+          key={item._id}
+          onClick={() => {
+            handleClick(item._id);
+          }}
+        >
+          {item.name}
         </Savebtn>
       ))}
     </Card>

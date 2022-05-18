@@ -1,13 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import Baseline from './baseline';
-import Headline from './headline';
+import React from "react";
+import styled from "styled-components";
+import Baseline from "./baseline";
+import Headline from "./headline";
 // import { Childchores } from './searchchorelist'
 
-
 const Wrapper = styled.section`
-padding: 4em;
-background: #FFF8DC;
+  padding: 2em;
+  background: #fff8dc;
 `;
 
 const Card = styled.div`
@@ -23,15 +22,13 @@ background-color: #FFF8DC;
 
 // Use Title and Wrapper like any other React component – except they're styled!
 export default function Childchorelists() {
-    return (
-      <div>
-        {Headline}
-        <Wrapper>
-            <Card>
-                  
-            </Card>
-        </Wrapper>
-        {Baseline}
+  return (
+    <div>
+      {Headline}
+      <Wrapper>
+        <Card></Card>
+      </Wrapper>
+      {Baseline}
     </div>
-    )
+  );
 }

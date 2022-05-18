@@ -1,5 +1,5 @@
-import { useReducer } from 'react';
-import { 
+import { useReducer } from "react";
+import {
   UPDATE_PRODUCTS,
   ADD_TO_CART,
   UPDATE_CART_QUANTITY,
@@ -8,11 +8,10 @@ import {
   UPDATE_CATEGORIES,
   UPDATE_CURRENT_CATEGORY,
   CLEAR_CART,
-  TOGGLE_CART
- } from './actions';
+  TOGGLE_CART,
+} from "./actions";
 
 export const reducer = (state, action) => {
-
   switch (action.type) {
     case UPDATE_PRODUCTS:
       return {
@@ -36,29 +35,29 @@ export const reducer = (state, action) => {
         cart: [...state.cart, ...action.products],
       };
 
-      case UPDATE_CART_QUANTITY:
-        return {
-          ...state,
-          isLoggedIn: !action.isLoggedIn,
-          cartOpen: true,
-          cart: state.cart.map(product => {
-            if (action._id === product._id) {
-              product.purchaseQuantity = action.purchaseQuantity
-            }
-            return product
-          })
-        };
+    case UPDATE_CART_QUANTITY:
+      return {
+        ...state,
+        isLoggedIn: !action.isLoggedIn,
+        cartOpen: true,
+        cart: state.cart.map((product) => {
+          if (action._id === product._id) {
+            product.purchaseQuantity = action.purchaseQuantity;
+          }
+          return product;
+        }),
+      };
 
-      case REMOVE_FROM_CART:
-        let newState = state.cart.filter(product => {
-          return product._id !== action._id
-        });
+    case REMOVE_FROM_CART:
+      let newState = state.cart.filter((product) => {
+        return product._id !== action._id;
+      });
 
       return {
         ...state,
-        isLoggedIn: !action.isLoggedIn, 
+        isLoggedIn: !action.isLoggedIn,
         cartOpen: newState.length > 0,
-        cart: newState
+        cart: newState,
       };
 
     case CLEAR_CART:
@@ -66,14 +65,14 @@ export const reducer = (state, action) => {
         ...state,
         isLoggedIn: !action.isLoggedIn,
         cartOpen: false,
-        cart: []
+        cart: [],
       };
 
     case TOGGLE_CART:
       return {
         ...state,
         isLoggedIn: !action.isLoggedIn,
-        cartOpen: !state.cartOpen
+        cartOpen: !state.cartOpen,
       };
 
     case UPDATE_CATEGORIES:
@@ -84,11 +83,11 @@ export const reducer = (state, action) => {
       };
 
     case UPDATE_CURRENT_CATEGORY:
-      return { 
+      return {
         ...state,
         isLoggedIn: !action.isLoggedIn,
-        currentCategory: action.currentCategory
-      }
+        currentCategory: action.currentCategory,
+      };
 
     default:
       return {

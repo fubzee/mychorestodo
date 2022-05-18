@@ -19,7 +19,7 @@ const AccountProvider = ({ value = [], ...props }) => {
   return <AccountContext.Provider value={[state, dispatch]} {...props} />;
 };
 
-
+const { Provider } =  StoreContext;
 
 const StoreProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useProductReducer({
@@ -30,7 +30,7 @@ const StoreProvider = ({ value = [], ...props }) => {
     currentCategory: '',
   });
 
-return <StoreContext.Provider value={[state, dispatch]} {...props} />;
+return < Provider value={[state, dispatch]} {...props} />;
 };
 
 const UserProvider = (props) => {

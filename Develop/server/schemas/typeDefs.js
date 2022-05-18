@@ -91,6 +91,12 @@ const typeDefs = gql`
       password: String!
       hint: String!
     ): User
+    addAuthUser(
+      username: String!
+      usertype: String!
+      password: String!
+      hint: String!
+    ): Auth
     addParent(
       name: String!
       email: String!
