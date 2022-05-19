@@ -2,7 +2,7 @@
 
 [https://fubzee.github.io/w20hw-portfolio/](https://mychorestodo.herokuapp.com/)
 
-https://github.com/fubzee/W20HW-Portfolio
+[https://github.com/fubzee/W20HW-Portfolio](https://github.com/fubzee/mychorestodo)
 
 ## Table of Contents: 
 ---
@@ -44,6 +44,7 @@ WHEN I am signed in to the site THEN I see my chores assigned to me with an opti
 ## Installation 
 ---
 Deployment - Heroku
+
 
 
 
