@@ -26,17 +26,23 @@ The application also provides a facility to make purchase donations to some char
 
 **The Assignment:** 
 
-    ## Your Task
+## Your Task
 
-    This was the final project of the Bootcamp and is intended to reflect the skills learned with a focus on React, MongoDB, Express and Node.  The project is still a work in progress.  
+### Description
 
-    ## User Story
+Modernise the traditional chore chart that hangs on the fridge.  The application allows a parent to register and create a “chore chart”, set target or goals for a reward and add chores for their child to To Do 
 
-    User story - Parent
+### Motivation for development?
+
+This generation of youth are tech savvy and this application provides a way for parents to teach children the importance of what their responsibilities are in the family home and/or the value of reward comes with hard work.
+
+## User Story
+
+### User story - Parent
     
 WHEN I am signed in to the site THEN I see a dashboard that has the chores assigned to child/ren, a button to donate to a charity, logout, add a child so I can start assigning chores WHEN I click on the add child button I am taken to a page where I can add my child’s details WHEN I click on the donate button I am taken to the charity page WHEN I click on the Add chore button I am taken to a page where I can add chores for the child WHEN I click on the logout button THEN I am signed out of the site 
 
-User story - Child
+### User story - Child
 
 WHEN I am signed in to the site THEN I see my chores assigned to me with an option to mark a task as complete, WHEN I click on the task complete option my rewards are added to my goals and I can see my progress towards my goal WHEN I click on the logout button then I am signed out of the site
 
