@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 
 const Wrapper = styled.section`
-  padding: 0.5em;
+  padding: none;
   background: #fff8dc;
 `;
 const Savebtn = styled.button`
@@ -50,6 +50,22 @@ const Text = styled.p`
   padding: 0.5em 1em;
   color: #2f4f4f;
   font-size: 1em;
+`;
+
+const Picture = styled.picture`
+  display: inline-block;
+  background: white;
+  padding: none;
+`;
+const FlexBox = styled.div`
+padding: none;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+align-items: center;
+border: none;
+justify-content: space-evenly;
+align-itmes: stretch;
 `;
 
 const Registration = () => {
