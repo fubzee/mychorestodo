@@ -10,15 +10,28 @@ padding: 1.0em;
 max-width: 300px;
 max-height 300px:
 `;
-
+const Wrapper = styled.section`
+  padding: 0.5em;
+  background: #fff8dc;
+`;
+const FlexBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  border: none;
+  justify-content: space-evenly;
+  
+`;
 const Home = () => {
   return (
-    <div>
+    <Wrapper>
       <div>
         <Headline {...Headline} />
       </div>
       <Registerbtn />
       <LoginForm />
+      <FlexBox>
       <Picture>
         <source srcSet="/main_page_bg01.png" type="image/svg+xml"></source>
         <img
@@ -51,7 +64,8 @@ const Home = () => {
           alt="bin_chores"
         ></img>
       </Picture>
-    </div>
+      </FlexBox>
+    </Wrapper>
   );
 };
 

@@ -5,29 +5,54 @@ import Headline from "../components/headline";
 import Chorelist from "../components/searchchorelist";
 import styled from "styled-components";
 
-// background: #fff8dc;
+const Wrapper = styled.section`
+  padding: none;
+  background: #fff8dc;
+`;
 const Picture = styled.picture`
   display: inline-block;
-  background: white;
+  background: #fff8dc;
   padding: 1em;
 `;
-
+const FlexBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  border: none;
+  justify-content: space-evenly;
+  align-itmes: stretch;
+`;
 const MyChores = () => {
   return (
     <div>
-      <Headline {...Headline} />
-      <Picture>
-        <source srcSet="/childpage_kid.png" type="image/svg+xml"></source>
-        <img
-          src="/public/childpage_kid.png"
-          className=" img-homepage"
-          alt="cleaning_chores"
-        ></img>
-      </Picture>
-      {/* <Chorelist
-        {...Chorelist}
-        /> */}
-      <Baseline {...Baseline} />
+      <Wrapper>
+        <Headline {...Headline}></Headline>
+
+        <FlexBox>
+          <Picture>
+            <source srcSet="/childpage_kid.png" type="image/svg+xml"></source>
+            <img
+              src="/public/childpage_kid.png"
+              className=" img-homepage"
+              alt="cleaning_chores"
+            ></img>
+          </Picture>
+          <Picture>
+            <source srcSet="/Construction.png" type="image/svg+xml"></source>
+            <img
+              src="/public/Construction.png"
+              className=" img-homepage"
+              alt="Under Construction"
+            ></img>
+          </Picture>
+          {/* <Chorelist
+            {...Chorelist}
+            /> */}
+        </FlexBox>
+
+        <Baseline {...Baseline} />
+      </Wrapper>
     </div>
   );
 };

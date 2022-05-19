@@ -5,7 +5,7 @@ import Donatebtn from "./donatebtn";
 import Backbtn from "./backbtn";
 
 const Wrapper = styled.section`
-  padding: 0.5em;
+  padding: none;
   background: #fff8dc;
 `;
 

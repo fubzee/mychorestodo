@@ -55,6 +55,15 @@ const Text = styled.p`
   margin: 0.2rem 0.2rem;
 `;
 
+const FlexBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  border: none;
+  justify-content: space-evenly;
+  align-itmes: stretch;
+`;
 const AddChild = () =>
 {
   const [formState, setFormState] = useState({

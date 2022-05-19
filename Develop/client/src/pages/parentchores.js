@@ -16,14 +16,25 @@ const Wrapper = styled.section`
 const Picture = styled.picture`
   display: inline-block;
   background: white;
-  padding: 1em;
+  padding: none;
+`;
+const FlexBox = styled.div`
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+align-items: center;
+border: none;
+justify-content: space-evenly;
+align-itmes: stretch;
 `;
 
 // Use Title and Wrapper like any other React component – except they're styled!
 export default function Parentchores() {
   return (
     <div>
+      <Wrapper>
       <Headline />
+      <FlexBox>
       <Picture>
         <source srcSet="/main_page_bg01.png" type="image/svg+xml"></source>
         <img
@@ -32,9 +43,20 @@ export default function Parentchores() {
           alt="cleaning_chores"
         ></img>
       </Picture>
+      <Picture>
+      <source srcSet="/Construction.png" type="image/svg+xml"></source>
+        <img
+          src="/public/Construction.png"
+          className=" img-homepage"
+          alt="Under Construction"
+        ></img>
+      </Picture>
+      </FlexBox>
       <Addchildbtn />
       <Addchorebtn />
       {/* <FindChildren /> */}
+     
+    </Wrapper>
     </div>
   );
 }

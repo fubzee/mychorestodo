@@ -55,6 +55,16 @@ const Text = styled.p`
   font-size: 1em;
 `;
 
+const FlexBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  border: none;
+  justify-content: space-evenly;
+  align-itmes: stretch;
+`;
+
 const AddChore = () => {
   const [formState, setFormState] = useState({
     name: "",
@@ -122,6 +132,7 @@ const AddChore = () => {
   return (
     <Wrapper>
       <Headline></Headline>
+      <FlexBox>
       {data ? (
         <Text>
           Success! You may now head{" "}
@@ -178,6 +189,7 @@ const AddChore = () => {
       {error && (
         <div className="my-3 p-3 bg-danger text-white">{error.message}</div>
       )}
+      </FlexBox>
     </Wrapper>
   );
 };
