@@ -1,8 +1,8 @@
 # W20HW-Portfolio
 
-[https://fubzee.github.io/w20hw-portfolio/](https://mychorestodo.herokuapp.com/)
+[(https://mychorestodo.herokuapp.com/)](https://mychorestodo.herokuapp.com/)
 
-[https://github.com/fubzee/W20HW-Portfolio](https://github.com/fubzee/mychorestodo)
+[(https://github.com/fubzee/mychorestodo)](https://github.com/fubzee/mychorestodo)
 
 ## Table of Contents: 
 ---
