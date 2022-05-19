@@ -19,7 +19,9 @@
 **Introduction:** 
 
 Modernise the traditional chore chart that hangs on the fridge.  The application allows a parent to register and create a “chore chart”, set target or goals for a reward and add chores for their child to To Do 
-Motivation for development?
+
+### Motivation for development?
+
 This generation of youth are tech savvy and this application provides a way for parents to teach children the importance of what their responsibilities are in the family home and/or the value of reward comes with hard work. 
 
 The application also provides a facility to make purchase donations to some charities available and processes payments through Stripe.
