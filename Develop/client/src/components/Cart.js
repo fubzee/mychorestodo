@@ -5,7 +5,7 @@ import { QUERY_CHECKOUT } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
 import CartItem from "./CartItem";
 import Auth from "../utils/auth";
-import { useStoreContext } from "../utils/GlobalState";
+import { useStoreContext, useAccountContext } from "../utils/GlobalState";
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../utils/actions";
 
 import styled from "styled-components";
@@ -26,17 +26,7 @@ const Savebtn = styled.button`
   border: 3px solid #538e73ba;
   font-size: 1em;
 `;
-const Input = styled.input`
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0.25em 1em;
-  margin: 0.5rem 1rem;
-  width: 8rem;
-  background: White;
-  color: #2f4f4f;
-  border: 3px solid #538e73ba;
-  font-size: 1em;
-`;
+
 const Card = styled.div`
   max-width: 200px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -72,9 +62,8 @@ const Cart = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       stripePromise.then((res) => {
-        res.redirectToCheckout({ id: data.checkout.session });
+        res.redirectToCheckout({ sessionId: data.checkout.session });
       });
     }
   }, [data]);
@@ -110,8 +99,6 @@ const Cart = () => {
         productIds.push(item._id);
       }
     });
-    console.log(state.cart);
-    console.log(productIds);
 
     getCheckout({
       variables: { products: productIds },

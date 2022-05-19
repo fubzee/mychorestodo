@@ -71,15 +71,14 @@ const LoginForm = (props) => {
       });
       const token = data.login.token;
       Auth.login(token);
-      console.log(useAccountContext.Provider);
       if (data.login.user.usertype === "Parent") {
         try {
           const { data: parentData } = await getParent({
             variables: { userId: data.login.user._id },
           });
-          console.log(parentData);
+
           setParent(parentData.getParent);
-          console.log(setParent);
+
           navigate("/Add/Chores/Parent/");
         } catch (e) {
           console.error(e);
@@ -89,9 +88,9 @@ const LoginForm = (props) => {
           const { data: childData } = await getChild({
             variables: { userId: data.login.user._id },
           });
-          console.log(childData);
+
           setChild(childData.getChild);
-          console.log(setChild);
+
           navigate("/Mychores/");
         } catch (e) {
           console.error(e);

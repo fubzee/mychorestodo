@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import { useQuery } from "@apollo/client";
 import { QUERY_USERNAME } from "../utils/queries";
-
 import styled from "styled-components";
 
 const Wrapper = styled.section`

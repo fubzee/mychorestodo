@@ -9,10 +9,6 @@ const Wrapper = styled.section`
   background: #fff8dc;
 `;
 
-const Grid = styled.section`
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-`;
 const FlexBox = styled.div`
   display: flex;
   flex-direction: row;

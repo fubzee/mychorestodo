@@ -71,7 +71,6 @@ align-itmes: stretch;
 const Registration = () => {
   const [formState, setFormState] = useState({
     username: "",
-    // usertype: '',
     password: "",
     hint: "",
     name: "",
