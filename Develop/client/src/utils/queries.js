@@ -69,3 +69,28 @@ export const QUERY_CATEGORIES = gql`
     }
   }
 `;
+export const QUERY_ALL_CHILDREN_CHORES = gql`
+  query Childchores($childId: ID) {
+    childchores(child_Id: $childId) {
+      _id
+      name
+      description
+      status
+      numcredits
+      parent_Id
+      child_Id
+    }
+  }
+`;
+export const QUERY_ALL_CHILDREN = gql`
+ query Children($parentId: ID) {
+    children(parent_Id: $parentId) {
+      _id
+      name
+      totalcredits
+      credittype
+      creditsearned
+      user_Id
+    }
+  }
+`;

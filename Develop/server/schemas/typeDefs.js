@@ -27,6 +27,7 @@ const typeDefs = gql`
     name: String
     totalcredits: Int
     credittype: String
+    creditsearned: Int
     parent_Id: ID
     user_Id: ID
   }
@@ -68,11 +69,12 @@ const typeDefs = gql`
     session: ID
   }
   type Query {
-    username(username: String): User
+    username(username: String!): User
     user(_id: ID): User
+    contextuser(_id: ID): User
+    me: User
     parent(user_Id: ID): Parent
     child(user_Id: ID): Child
-    children(parent_Id: ID): [Child]
     chore(_id: ID): Chore
     parentchores(parent_Id: ID): [Chore]
     childchores(child_Id: ID): [Chore]
@@ -81,22 +83,36 @@ const typeDefs = gql`
     product(_id: ID!): Product
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout
+    children(parent_Id: ID): [Child]
   }
 
   type Mutation {
-    login(username: String!, password: String!): Auth
+    login(
+      username: String!
+      password: String!
+    ): Auth
+
     addUser(
       username: String!
       usertype: String!
       password: String!
       hint: String!
     ): User
+
+    addChildUser(
+      username: String!
+      usertype: String!
+      password: String!
+      hint: String!
+    ): User
+
     addAuthUser(
       username: String!
       usertype: String!
       password: String!
       hint: String!
     ): Auth
+
     addParent(
       name: String!
       email: String!
@@ -108,6 +124,7 @@ const typeDefs = gql`
       name: String!
       totalcredits: Int!
       credittype: String!
+      creditsearned: Int
       parent_Id: String!
       user_Id: String!
     ): Child
@@ -141,10 +158,8 @@ const typeDefs = gql`
     removeUser(user_Id: ID!): User
     addOrder(products: [ID]!): Order
     updateProduct(_id: ID!, quantity: Int!): Product
-    children(parent_Id: ID): [Child]
     chore(_id: ID): Chore
     parentchores(parent_Id: ID): [Chore]
-    childchores(child_Id: ID): [Chore]
     childname(name: String!): [Child]
   }
 `;

@@ -15,7 +15,7 @@ const Wrapper = styled.section`
 
 const Picture = styled.picture`
   display: inline-block;
-  background: white;
+  background: #fff8dc;
   padding: none;
 `;
 const FlexBox = styled.div`
@@ -43,18 +43,18 @@ export default function Parentchores() {
           alt="cleaning_chores"
         ></img>
       </Picture>
-      <Picture>
+      {/* <Picture>
       <source srcSet="/Construction.png" type="image/svg+xml"></source>
         <img
           src="/public/Construction.png"
           className=" img-homepage"
           alt="Under Construction"
         ></img>
-      </Picture>
+      </Picture> */}
       </FlexBox>
       <Addchildbtn />
       <Addchorebtn />
-      {/* <FindChildren /> */}
+      <FindChildren />
      
     </Wrapper>
     </div>

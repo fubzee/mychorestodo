@@ -43,17 +43,13 @@ function Registerbtn() {
     <div>
       <Wrapper>
         <Regbtn>
-          <Link
-            type="button"
-            // className="button"
-            to={`/Register`}
-          >
+          <Link type="button" className="button" to={`/Register`}>
             Register
           </Link>
         </Regbtn>
       </Wrapper>
     </div>
   );
-}
+};
 
 export default Registerbtn;

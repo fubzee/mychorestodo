@@ -52,22 +52,6 @@ const Text = styled.p`
   font-size: 1em;
 `;
 
-const Picture = styled.picture`
-  display: inline-block;
-  background: white;
-  padding: none;
-`;
-const FlexBox = styled.div`
-padding: none;
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-align-items: center;
-border: none;
-justify-content: space-evenly;
-align-itmes: stretch;
-`;
-
 const Registration = () => {
   const [formState, setFormState] = useState({
     username: "",
@@ -96,17 +80,17 @@ const Registration = () => {
     console.log(formState);
 
     try {
-      const { data } = await addUser({
+      const data = await addUser({
         variables: { usertype: "Parent", ...formState },
       });
       console.log(data);
-      Auth.login(data.addUser.token);
-      console.log(data.addUser._id);
+      // Auth.login(data.data.addUser.token);
+      console.log(data.data.addUser._id);
       await addParent({
-        variables: { userId: data.addUser._id, ...formState },
+        variables: { userId:data.data.addUser._id, ...formState },
       });
-    } catch (e) {
-      console.error(e.message);
+    } catch (err1) {
+      console.error(err1.message);
     }
   };
 

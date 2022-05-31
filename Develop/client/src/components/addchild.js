@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 import { ADD_CHILD } from "../utils/mutations";
+import { ADD_CHILD_USER } from "../utils/mutations";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import Headline from "./headline";
-import { useParentContext } from "../utils/GlobalState";
+import { ParentProvider, useParentContext } from "../utils/GlobalState";
 
 const Wrapper = styled.section`
   padding: 0.5em;
@@ -75,7 +76,7 @@ const AddChild = () =>
     credittype: "",
   });
   const { Parent } = useParentContext();
-  const [addUser, { error, data }] = useMutation(ADD_USER);
+  const [addUser, { error, data }] = useMutation(ADD_CHILD_USER);
   const [addChild, { c_err, c_data1 }] = useMutation(ADD_CHILD);
   // update state based on form input changes
   const handleChange = (event) =>
@@ -95,21 +96,22 @@ const AddChild = () =>
     console.log(formState);
     try
     {
-      const { data } = await addUser({
+      const data  = await addUser({
         variables: { usertype: "Child", ...formState },
       });
-      console.log(data);
-      Auth.login(data.addUser.token);
-      console.log(data.addUser._id);
+     console.log({data});
+      // Auth.login(data.addUser.token);
+      // console.log(childuserdata._id);
       console.log(event.totalcredits);
       const totalcreditsint = parseInt(formState.total_credits);
       console.log(totalcreditsint);
-      console.log("userid", data.addUser._id);
-      console.log("parentid", Parent);
-      const { c_data } = await addChild({
+      // console.log("userid", childuserdata._id);
+      console.log("parentid", Parent._id);
+      const { childdata } = await addChild({
         variables: {
-          userId: data.addUser._id,
+          userId: data.data.addChildUser._id,
           totalcredits: totalcreditsint,
+          creditsearned: 0,
           parentId: Parent._id,
           ...formState,
         },
@@ -125,9 +127,9 @@ const AddChild = () =>
       <Headline></Headline>
       {data ? (
         <Text>
-          Success! You may now head{" "}
-          <Link to="/Chores/Parent">back and add some chores to do!.</Link>
-        </Text>
+        Success! You may now head{" "}
+        <Link to="/chores/parent">back to the page.</Link>
+      </Text>
       ) : (
         <Card>
           <Text>Child's Information</Text>

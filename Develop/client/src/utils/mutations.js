@@ -15,12 +15,34 @@ export const LOGIN = gql`
 
 export const ADD_USER = gql`
   mutation AddUser(
+    $usertype: String!
+    $username: String!
+    $password: String!
+    $hint: String!
+  ) {
+    addUser(
+      usertype: $usertype
+      username: $username
+      password: $password
+      hint: $hint
+    ) 
+    {
+        _id
+        username
+        usertype
+      
+    }
+  }
+`;
+
+export const ADD_CHILD_USER = gql`
+  mutation AddChildUser(
     $username: String!
     $usertype: String!
     $password: String!
     $hint: String!
   ) {
-    addUser(
+    addChildUser(
       username: $username
       usertype: $usertype
       password: $password
@@ -69,6 +91,7 @@ export const QUERY_SINGLE_CHILD = gql`
       name
       totalcredits
       credittype
+      creditsearned
       parent_Id
       user_Id
     }
@@ -79,6 +102,7 @@ export const ADD_CHILD = gql`
     $name: String!
     $totalcredits: Int!
     $credittype: String!
+    $creditsearned:Int
     $parentId: String!
     $userId: String!
   ) {
@@ -86,6 +110,7 @@ export const ADD_CHILD = gql`
       name: $name
       totalcredits: $totalcredits
       credittype: $credittype
+      creditsearned: $creditsearned
       parent_Id: $parentId
       user_Id: $userId
     ) {
@@ -93,6 +118,7 @@ export const ADD_CHILD = gql`
       name
       totalcredits
       credittype
+      creditsearned
       parent_Id
       user_Id
     }
@@ -214,6 +240,7 @@ export const REM_CHILDREN = gql`
       name
       totalcredits
       credittype
+      creditsearned
       parent_Id
       user_Id
     }
@@ -226,6 +253,7 @@ export const REM_SINGLE_CHILD = gql`
       _id
       name
       totalcredits
+      creditsearned
       credittype
       parent_Id
       user_Id
@@ -274,17 +302,7 @@ export const ADD_ORDER = gql`
     }
   }
 `;
-export const QUERY_ALL_CHILDREN = gql`
-  mutation Children($parentId: ID) {
-    children(parent_Id: $parentId) {
-      _id
-      name
-      totalcredits
-      credittype
-      user_Id
-    }
-  }
-`;
+
 export const QUERY_SINGLE_CHORE = gql`
   mutation Chore($id: ID) {
     chore(_id: $id) {
@@ -319,19 +337,19 @@ export const QUERY_ALL_PARENT_CHORES = gql`
   }
 `;
 
-export const QUERY_ALL_CHILDREN_CHORES = gql`
-  mutation Childchores($childId: ID) {
-    childchores(child_Id: $childId) {
-      _id
-      name
-      description
-      status
-      numcredits
-      parent_Id
-      child_Id
-    }
-  }
-`;
+// export const QUERY_ALL_CHILDREN_CHORES = gql`
+//   mutation Childchores($childId: ID) {
+//     childchores(child_Id: $childId) {
+//       _id
+//       name
+//       description
+//       status
+//       numcredits
+//       parent_Id
+//       child_Id
+//     }
+//   }
+// `;
 
 export const QUERY_PARENT_CHILD = gql`
   mutation Childname($name: String!) {

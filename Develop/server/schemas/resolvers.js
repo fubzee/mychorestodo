@@ -36,7 +36,7 @@ const resolvers = {
     product: async (parent, { _id }) => {
       return await Product.findById(_id).populate("category");
     },
-    user: async (parent, args, context) => {
+    contextuser: async (parent, args, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
           path: "orders.products",
@@ -61,6 +61,14 @@ const resolvers = {
       }
 
       throw new AuthenticationError("Not logged in");
+    },
+
+    children: async (parent, { parent_Id }) => {
+      return Child.find({ parent_Id: parent_Id });
+    },
+
+    childchores: async (parent, { child_Id }) => {
+      return Chore.find({ child_Id: child_Id });
     },
 
     checkout: async (parent, args, context) => {
@@ -105,10 +113,15 @@ const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (parent, { username, usertype, password, hint }) => {
-      const user = await User.create({ username, usertype, password, hint });
-      const token = signToken(User);
-      return { token, user };
+    addUser: async (parent, { usertype, username, password, hint }) => {
+      const user = await User.create({ usertype, username, password, hint });
+      // const token = signToken(user);
+      return user;
+    },
+
+    addChildUser: async (parent, { username, usertype, password, hint }) => {
+      const childuser = await User.create({ username, usertype, password, hint });
+      return  childuser ;
     },
 
     login: async (parent, { username, password }) => {
@@ -129,7 +142,7 @@ const resolvers = {
 
       const token = signToken(user);
 
-      return { token, user };
+      return  {token, user};
     },
 
     getParent: async (parent, { user_Id }) => {
@@ -147,12 +160,13 @@ const resolvers = {
 
     addChild: async (
       parent,
-      { name, totalcredits, credittype, parent_Id, user_Id }
+      { name, totalcredits, credittype, creditsearned, parent_Id, user_Id }
     ) => {
       const child = await Child.create({
         name,
         totalcredits,
         credittype,
+        creditsearned,
         parent_Id,
         user_Id,
       });
@@ -248,9 +262,7 @@ const resolvers = {
       );
     },
     ///
-    children: async (parent, { parent_Id }) => {
-      return Child.find({ parent_Id: parent_Id });
-    },
+
 
     chore: async (parent, { _id }) => {
       return Chore.findById({ _id: _id });
@@ -260,9 +272,7 @@ const resolvers = {
       return Chore.find({ parent_Id: parent_Id });
     },
 
-    childchores: async (parent, { child_Id }) => {
-      return Chore.find({ child_Id: child_Id });
-    },
+
 
     childname: async (parent, { name }) => {
       return Child.find({ name: name });

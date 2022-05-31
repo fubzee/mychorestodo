@@ -92,43 +92,31 @@ const AddChore = () => {
   // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
-    console.log(formState.num_credits);
     const numcreditsint = parseInt(formState.num_credits);
     const datecreated = Date();
-    console.log("Credits and date", numcreditsint, datecreated);
     try {
       const { data: nameData } = await getName({
         variables: { name: formState.childName },
       });
-      let useID = " ";
-      console.log("nameData", nameData.childname);
-      console.log("length", nameData.childname.length);
-
       for (let i = 0; i < nameData.childname.length; i++) {
-        console.log(nameData.childname[i].parent_Id, Parent._id);
-        if (nameData.childName[i].parent_Id === Parent._id) {
-          useID = nameData.childname[i]._id;
-          console.log("UseID", useID);
-          return;
+        if (nameData.childname[i].parent_Id === Parent._id) {
+          const useID = nameData.childname[i]._id;
+          const { data: choredata } = await addChore({
+            variables: {
+              numcredits: numcreditsint,
+              status: false,
+              datecreated: datecreated,
+              parentId: Parent._id,
+              childId: useID,
+              ...formState,
+            }
+          })
         }
       }
-      const { data } = await addChore({
-        variables: {
-          numcredits: numcreditsint,
-          status: false,
-          datecreated: datecreated,
-          parentId: Parent._id,
-          childId: useID,
-          ...formState,
-        },
-      });
-      console.log(data);
     } catch (e) {
       console.error(e.message);
     }
   };
-
   return (
     <Wrapper>
       <Headline></Headline>

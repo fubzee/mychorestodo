@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import {
   ApolloClient,
   InMemoryCache,
@@ -7,6 +7,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -27,17 +28,17 @@ import {
 } from "./utils/GlobalState";
 
 const httpLink = createHttpLink({
-  uri: "/graphql",
+  uri: '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("id_token");
+  const token = localStorage.getItem('id_token');
   // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
@@ -71,7 +72,6 @@ function App() {
                       <Route path="*" element={<NoMatch />} />
                     </Routes>
                   </div>
-                  
                 </ChildProvider>
               </ParentProvider>
             </StoreProvider>

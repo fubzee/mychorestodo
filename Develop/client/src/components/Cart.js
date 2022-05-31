@@ -58,12 +58,13 @@ const stripePromise = loadStripe(
 
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
-  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  const [getCheckout,  data ] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.session });
+        res.redirectToCheckout({ id: data.checkout.session });
       });
     }
   }, [data]);

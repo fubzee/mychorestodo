@@ -24,6 +24,6 @@ function Addchorebtn() {
       </Regbtn>
     </div>
   );
-}
+};
 
 export default Addchorebtn;

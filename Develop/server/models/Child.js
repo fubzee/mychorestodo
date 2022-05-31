@@ -13,6 +13,10 @@ const childSchema = new Schema ({
     credittype: {
         type: String,
     },
+    creditsearned: {
+        type: Number,
+        default: 0,
+    },
     parent_Id: {
         type: Schema.Types.ObjectId, ref: 'Parent'
     },

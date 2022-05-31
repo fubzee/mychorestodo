@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { LOGIN } from "../utils/mutations";
 import { useNavigate } from "react-router-dom";
 import Auth from "../utils/auth";
 import { QUERY_SINGLE_PARENT } from "../utils/mutations";
 import { QUERY_SINGLE_CHILD } from "../utils/mutations";
 import {
-  useAccountContext,
+  useUserContext,
   useParentContext,
   useChildContext,
 } from "../utils/GlobalState";
@@ -52,8 +52,9 @@ const Card = styled.div`
   }
 `;
 
-const LoginForm = (props) => {
-  const [formState, setFormState] = useState({ username: "", password: "" });
+const LoginForm = () => {
+  const [formState, setFormState] = useState({ username: '', password: '' });
+  // console.log("from form", ...formState);
   const [login, { error, data }] = useMutation(LOGIN);
   const navigate = useNavigate();
   const [getParent, { error: p_error, data: p_data }] =
@@ -62,15 +63,19 @@ const LoginForm = (props) => {
     useMutation(QUERY_SINGLE_CHILD);
   const { setParent } = useParentContext();
   const { setChild } = useChildContext();
-
+ 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("at try");
       const { data } = await login({
         variables: { ...formState },
       });
+      console.log(data);
       const token = data.login.token;
-      Auth.login(token);
+      Auth.login(data.login.token);
+      console.log(token);
+          
       if (data.login.user.usertype === "Parent") {
         try {
           const { data: parentData } = await getParent({
@@ -78,7 +83,6 @@ const LoginForm = (props) => {
           });
 
           setParent(parentData.getParent);
-
           navigate("/Add/Chores/Parent/");
         } catch (e) {
           console.error(e);
@@ -90,7 +94,6 @@ const LoginForm = (props) => {
           });
 
           setChild(childData.getChild);
-
           navigate("/Mychores/");
         } catch (e) {
           console.error(e);
@@ -100,6 +103,7 @@ const LoginForm = (props) => {
       console.error(e);
     }
   };
+
   const handleInput = (event) => {
     const { name, value } = event.target;
     setFormState({
@@ -107,6 +111,7 @@ const LoginForm = (props) => {
       [name]: value,
     });
   };
+
   return (
     <div>
       <Wrapper>

@@ -25,7 +25,7 @@ function Addchildbtn() {
         </Link>
       </Regbtn>
     </div>
-  );
+  )
 }
 
 export default Addchildbtn;

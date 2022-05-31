@@ -2,7 +2,7 @@ import React from "react";
 import Baseline from "../components/baseline";
 // import ResultList  from '../components/resultlist';
 import Headline from "../components/headline";
-import Chorelist from "../components/searchchorelist";
+import Choreslist from "../components/searchchorelist";
 import styled from "styled-components";
 
 const Wrapper = styled.section`
@@ -38,18 +38,11 @@ const MyChores = () => {
               alt="cleaning_chores"
             ></img>
           </Picture>
-          <Picture>
-            <source srcSet="/Construction.png" type="image/svg+xml"></source>
-            <img
-              src="/public/Construction.png"
-              className=" img-homepage"
-              alt="Under Construction"
-            ></img>
-          </Picture>
-          {/* <Chorelist
-            {...Chorelist}
-            /> */}
-        </FlexBox>
+         
+          <div>
+             <Choreslist />
+         </div>
+         </FlexBox>
 
         <Baseline {...Baseline} />
       </Wrapper>

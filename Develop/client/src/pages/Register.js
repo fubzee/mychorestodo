@@ -11,7 +11,7 @@ const Wrapper = styled.section`
 `;
 const Picture = styled.picture`
   display: inline-block;
-  background: white;
+  background: #fff8dc;
   padding: none;
 `;
 const FlexBox = styled.div`

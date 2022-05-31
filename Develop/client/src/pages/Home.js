@@ -6,7 +6,8 @@ import styled from "styled-components";
 
 const Picture = styled.picture`
 display: inline-block;
-padding: 1.0em;
+background: #fff8dc;
+padding: none;
 max-width: 300px;
 max-height 300px:
 `;
