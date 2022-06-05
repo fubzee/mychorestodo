@@ -71,6 +71,10 @@ const resolvers = {
       return Chore.find({ child_Id: child_Id });
     },
 
+    chore: async (parent, { _id }) => {
+      return Chore.findById({ _id: _id });
+    },
+
     checkout: async (parent, args, context) => {
       try {
         const url = new URL(context.headers.referer).origin;
@@ -173,6 +177,32 @@ const resolvers = {
       return child;
     },
 
+    updateChild: async (
+      parent,
+      { child_Id, name, totalcredits, credittype, creditsearned, parent_Id, user_Id }
+    ) => {
+      const child = await Child.findByIdAndUpdate({ _id: child_Id},
+        {name: name,
+        totalcredits:totalcredits,
+        credittype:credittype,
+        creditsearned:creditsearned,
+        parent_Id: parent_Id,
+        user_Id: child_Id,
+        });
+      return child;
+    },
+
+    UpdateChildcredits: async (
+      parent,
+      { child_Id, creditsearned }
+    ) => {
+      const child = await Child.findByIdAndUpdate({ _id: child_Id},
+        {
+        creditsearned:creditsearned,
+        });
+      return child;
+    },
+
     addChore: async (
       parent,
       {
@@ -201,19 +231,13 @@ const resolvers = {
       return chore;
     },
 
-    updChore: async (
-      parent,
-      { chore_id, name, description, status, numcredits, parent_Id, child_Id }
-    ) => {
-      const chore = await Chore.findOneAndUpdate({
-        chore_id,
-        name,
-        description,
-        status,
-        numcredits,
-        parent_Id,
-        child_Id,
-      });
+    updateChore: async (parent, {chore_Id, status, datecompleted }) => {
+      const chore = await Chore.findByIdAndUpdate({ _id: chore_Id },
+        {
+        status: status,
+        datecompleted: datecompleted
+        });
+
       return chore;
     },
 
@@ -264,9 +288,7 @@ const resolvers = {
     ///
 
 
-    chore: async (parent, { _id }) => {
-      return Chore.findById({ _id: _id });
-    },
+
 
     parentchores: async (parent, { parent_Id }) => {
       return Chore.find({ parent_Id: parent_Id });

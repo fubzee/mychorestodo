@@ -1,5 +1,5 @@
 const db = require('../config/connection');
-const { Product, Category } = require('../models');
+const { Product, Category, Choretype } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
@@ -13,6 +13,33 @@ db.once('open', async () => {
 
   console.log('categories seeded');
 
+  await Choretype.deleteMany();
+
+  const choretypes = await Choretype.insertMany([
+    { name: 'Toys',
+      image: '' },
+      { name: 'Garden',
+      image: '' },
+      { name: 'Pet',
+      image: '' },
+      { name: 'Kitchen',
+      image: '' },
+      { name: 'Bedroom',
+      image: '' },
+      { name: 'Homework',
+      image: '' },
+      { name: 'Cars',
+      image: '' },
+      { name: 'Teeth',
+      image: '' },
+      { name: 'Shoes',
+      image: '' },
+      { name: 'Chore',
+      image: '' },
+  ]);
+
+  console.log('chore types seeded');
+  
   await Product.deleteMany();
 
   const products = await Product.insertMany([

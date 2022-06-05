@@ -125,6 +125,48 @@ export const ADD_CHILD = gql`
   }
 `;
 
+export const UPD_CHILD = gql`
+  mutation UpdChild(
+    $name: String!
+    $totalcredits: Int!
+    $credittype: String!
+    $creditsearned:Int
+    $parentId: String!
+    $userId: String!
+  ) {
+    addChild(
+      name: $name
+      totalcredits: $totalcredits
+      credittype: $credittype
+      creditsearned: $creditsearned
+      parent_Id: $parentId
+      user_Id: $userId
+    ) {
+      _id
+      name
+      totalcredits
+      credittype
+      creditsearned
+      parent_Id
+      user_Id
+    }
+  }
+`;
+export const UPD_CHILD_CRD = gql`
+  mutation UpdateChildCredits(
+    $childId: ID!
+    $creditsearned:Int!
+  ) {
+    UpdateChildcredits(
+      child_Id: $childId
+      creditsearned: $creditsearned
+    ) {
+      _id
+      creditsearned
+    }
+  }
+`;
+
 export const ADD_CHORE = gql`
   mutation AddChore(
     $name: String!
@@ -157,28 +199,21 @@ export const ADD_CHORE = gql`
       child_Id
       repeat
       datecreated
+      datecompleted
     }
   }
 `;
 
-export const UPD_CHORE = gql`
-  mutation UpdChore(
+export const UPDATE_CHORE = gql`
+  mutation UpdateChore(
     $choreId: ID!
-    $name: String!
-    $description: String!
     $status: Boolean!
-    $numcredits: Int!
-    $parentId: String!
-    $childId: String!
+    $datecompleted: String
   ) {
-    updChore(
-      chore_id: $choreId
-      name: $name
-      description: $description
+    updateChore(
+      chore_Id: $choreId
       status: $status
-      numcredits: $numcredits
-      parent_Id: $parentId
-      child_Id: $childId
+      datecompleted: $datecompleted
     ) {
       _id
       name
@@ -303,22 +338,7 @@ export const ADD_ORDER = gql`
   }
 `;
 
-export const QUERY_SINGLE_CHORE = gql`
-  mutation Chore($id: ID) {
-    chore(_id: $id) {
-      _id
-      name
-      description
-      status
-      numcredits
-      parent_Id
-      child_Id
-      repeat
-      datecreated
-      datecompleted
-    }
-  }
-`;
+
 
 export const QUERY_ALL_PARENT_CHORES = gql`
   mutation Parentchores($parentId: ID) {

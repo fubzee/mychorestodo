@@ -23,10 +23,10 @@ const choreSchema = new Schema ({
         type: Date,
     },
     datecompleted: {
-        type: Date
+        type: Date,
     },
     parent_Id: {
-        type: Schema.Types.ObjectId, ref: 'Parent'
+        type: Schema.Types.ObjectId, ref: 'Parent',
     },
     child_Id: {
         type: Schema.Types.ObjectId, ref: 'Child'

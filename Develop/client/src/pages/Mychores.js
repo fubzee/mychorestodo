@@ -1,5 +1,5 @@
 import React from "react";
-import Baseline from "../components/baseline";
+import Childfooter from "../components/childfooter";
 // import ResultList  from '../components/resultlist';
 import Headline from "../components/headline";
 import Choreslist from "../components/searchchorelist";
@@ -44,7 +44,7 @@ const MyChores = () => {
          </div>
          </FlexBox>
 
-        <Baseline {...Baseline} />
+        <Childfooter {...Childfooter} />
       </Wrapper>
     </div>
   );

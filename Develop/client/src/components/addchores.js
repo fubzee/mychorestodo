@@ -106,6 +106,7 @@ const AddChore = () => {
               numcredits: numcreditsint,
               status: false,
               datecreated: datecreated,
+              datecompleted: "",
               parentId: Parent._id,
               childId: useID,
               ...formState,

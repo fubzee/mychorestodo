@@ -94,3 +94,20 @@ export const QUERY_ALL_CHILDREN = gql`
     }
   }
 `;
+
+export const QUERY_SINGLE_CHORE = gql`
+ query Chore($id: ID) {
+    chore(_id: $id) {
+      _id
+      name
+      description
+      status
+      numcredits
+      parent_Id
+      child_Id
+      repeat
+      datecreated
+      datecompleted
+    }
+  }
+`;

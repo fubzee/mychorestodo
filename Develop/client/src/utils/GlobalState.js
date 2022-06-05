@@ -60,7 +60,7 @@ const ChildProvider = (props) => {
     console.log(Child)
   }, [Child])
 
-return <ChildContext.Provider value={{  Child, setChild }} {...props} />;
+return <ChildContext.Provider value={{ Child, setChild }} {...props} />;
 };
 
 const useStoreContext = () => {

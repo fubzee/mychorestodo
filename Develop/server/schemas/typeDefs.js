@@ -119,7 +119,9 @@ const typeDefs = gql`
       chart: String!
       user_Id: String!
     ): Parent
+
     getParent(user_Id: ID): Parent
+
     addChild(
       name: String!
       totalcredits: Int!
@@ -128,7 +130,24 @@ const typeDefs = gql`
       parent_Id: String!
       user_Id: String!
     ): Child
+
     getChild(user_Id: ID): Child
+
+    updateChild(
+      child_Id: ID
+      name: String!
+      totalcredits: Int!
+      credittype: String!
+      creditsearned: Int
+      parent_Id: String!
+      user_Id: String!
+    ): Child
+     
+    UpdateChildcredits(
+      child_Id: ID
+      creditsearned: Int!
+    ): Child
+
     addChore(
       name: String!
       description: String!
@@ -140,15 +159,13 @@ const typeDefs = gql`
       parent_Id: String!
       child_Id: String!
     ): Chore
-    updChore(
-      chore_id: ID!
-      name: String!
-      description: String!
+
+    updateChore(
+      chore_Id: ID!
       status: Boolean!
-      numcredits: Int!
-      parent_Id: String!
-      child_Id: String!
+      datecompleted: String
     ): Chore
+
     removeChore(chore_Id: ID!): Chore
     removeParentChores(parent_Id: ID!): Chore
     removeChildChores(child_Id: ID!): Chore

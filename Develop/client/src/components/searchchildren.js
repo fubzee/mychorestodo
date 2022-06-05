@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, Children } from "react";
-// import ResultList  from './resultlist';
 import { useQuery } from "@apollo/client";
 import { QUERY_ALL_CHILDREN } from "../utils/queries";
 import { useParentContext } from "../utils/GlobalState";
