@@ -82,6 +82,7 @@ export const QUERY_ALL_CHILDREN_CHORES = gql`
     }
   }
 `;
+
 export const QUERY_ALL_CHILDREN = gql`
  query Children($parentId: ID) {
     children(parent_Id: $parentId) {
@@ -111,3 +112,21 @@ export const QUERY_SINGLE_CHORE = gql`
     }
   }
 `;
+
+export const QUERY_ALL_PARENT_CHORES = gql`
+  query Parentchores($parentId: ID) {
+    parentchores(parent_Id: $parentId) {
+      _id
+      name
+      description
+      status
+      numcredits
+      repeat
+      datecreated
+      datecompleted
+      child_Id
+      parent_Id
+    }
+  }
+`;
+

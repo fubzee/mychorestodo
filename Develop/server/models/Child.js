@@ -23,7 +23,7 @@ const childSchema = new Schema ({
     user_Id: {
         required: true,
         type: Schema.Types.ObjectId, ref: 'User'
-    }
+    },
 });
 
 const Child = model('Child', childSchema);

@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 
 import { ADD_CHORE } from "../utils/mutations";
 import { QUERY_PARENT_CHILD } from "../utils/mutations";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Headline from "./headline";
 import { useParentContext } from "../utils/GlobalState";
 
@@ -73,10 +73,10 @@ const AddChore = () => {
     repeat: "",
   });
   const { Parent } = useParentContext();
-
+  const params = useParams();
   const [getName, { n_error, n_data }] = useMutation(QUERY_PARENT_CHILD);
   console.log("Parent", Parent);
-
+  console.log("Params", params);
   const [addChore, { error, data }] = useMutation(ADD_CHORE);
 
   // update state based on form input changes
@@ -96,7 +96,7 @@ const AddChore = () => {
     const datecreated = Date();
     try {
       const { data: nameData } = await getName({
-        variables: { name: formState.childName },
+        variables: { name: params.id },
       });
       for (let i = 0; i < nameData.childname.length; i++) {
         if (nameData.childname[i].parent_Id === Parent._id) {
@@ -110,8 +110,8 @@ const AddChore = () => {
               parentId: Parent._id,
               childId: useID,
               ...formState,
-            }
-          })
+            }});
+            
         }
       }
     } catch (e) {
@@ -129,7 +129,15 @@ const AddChore = () => {
         </Text>
       ) : (
         <Card>
-          <Text>Details about the task</Text>
+          <Text>Details about the task for </Text>
+          <Input
+            className="form-input"
+            placeholder={params.id}
+            name="childName"
+            type="text"
+            disabled={true}
+            value={formState.childName}
+          />
           <Input
             className="form-input"
             placeholder="Name of Chore/Task"
@@ -154,14 +162,7 @@ const AddChore = () => {
             value={formState.num_credits}
             onChange={handleChange}
           />
-          <Input
-            className="form-input"
-            placeholder="Child"
-            name="childName"
-            type="text"
-            value={formState.childName}
-            onChange={handleChange}
-          />
+
           <Input
             className="form-input"
             placeholder="repeat"

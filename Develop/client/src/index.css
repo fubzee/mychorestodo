@@ -15,3 +15,21 @@ code {
 background {
   background: #fff8dc
 }
+
+.tab-list {
+  border-bottom: 1px solid #d1fdf6;
+  padding-left: 0;
+}
+
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  padding: 0.5rem 0.75rem;
+}
+
+.tab-list-active {
+  background-color: #5Fc8FF;
+  border-width: 1px 1px 0 1px;
+  color: #000;
+}

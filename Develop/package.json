@@ -24,6 +24,7 @@
         "bcrypt": "^5.0.1",
         "express": "^4.18.1",
         "mongoose": "^6.3.2",
+        "react-tabs": "^5.1.0",
         "stripe": "^9.1.0"
     }
 }

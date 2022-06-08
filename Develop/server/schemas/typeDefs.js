@@ -68,7 +68,16 @@ const typeDefs = gql`
   type Checkout {
     session: ID
   }
+
+  type All {
+    parent: [Parent]
+    child: [Child] 
+    chore: [Chore]
+  }
+
   type Query {
+
+    all (parent_Id: ID) : All
     username(username: String!): User
     user(_id: ID): User
     contextuser(_id: ID): User
@@ -83,7 +92,7 @@ const typeDefs = gql`
     product(_id: ID!): Product
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout
-    children(parent_Id: ID): [Child]
+    children(parent_Id: ID): [Child] 
   }
 
   type Mutation {
@@ -176,7 +185,7 @@ const typeDefs = gql`
     addOrder(products: [ID]!): Order
     updateProduct(_id: ID!, quantity: Int!): Product
     chore(_id: ID): Chore
-    parentchores(parent_Id: ID): [Chore]
+  
     childname(name: String!): [Child]
   }
 `;

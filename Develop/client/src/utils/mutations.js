@@ -167,6 +167,7 @@ export const UPD_CHILD_CRD = gql`
   }
 `;
 
+
 export const ADD_CHORE = gql`
   mutation AddChore(
     $name: String!
@@ -339,23 +340,6 @@ export const ADD_ORDER = gql`
 `;
 
 
-
-export const QUERY_ALL_PARENT_CHORES = gql`
-  mutation Parentchores($parentId: ID) {
-    parentchores(parent_Id: $parentId) {
-      _id
-      name
-      description
-      status
-      numcredits
-      repeat
-      datecreated
-      datecompleted
-      child_Id
-      parent_Id
-    }
-  }
-`;
 
 // export const QUERY_ALL_CHILDREN_CHORES = gql`
 //   mutation Childchores($childId: ID) {

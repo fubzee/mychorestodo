@@ -64,7 +64,7 @@ function App() {
                       <Route path="/Add/Chores/Parent" element={<Chores />} />
                       <Route path="/MyChores" element={<MyChores />} />
                       <Route path="/Add/child" element={<AddchildPage />} />
-                      <Route path="/Add/Chore" element={<AddchorePage />} />
+                      <Route path="/Add/Chore/:id" element={<AddchorePage />} />
                       <Route path="/Donate" element={<Donate />} />
                       <Route path="/Success" element={<Success />} />
                       <Route path="/orderHistory" element={<OrderHistory />} />

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Addchildbtn from "../components/addchildbtn";
-import Addchorebtn from "../components/addchorebtn";
+
 import Headline from "../components/headline";
 
 // import Choreslist from './searchchorelist';
@@ -53,7 +53,7 @@ export default function Parentchores() {
       </Picture> */}
       </FlexBox>
       <Addchildbtn />
-      <Addchorebtn />
+     
       <FindChildren />
      
     </Wrapper>

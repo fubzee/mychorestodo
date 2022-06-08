@@ -53,7 +53,7 @@ function Backbtn() {
    return (
     <div>
       <Regbtn type="button" className="button" >
-        <Link to='/'>Back</Link>
+        <Link to='/Add/Chores/Parent/'>Back</Link>
       </Regbtn>
     </div>
   );

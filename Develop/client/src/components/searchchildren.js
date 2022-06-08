@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useContext, Children } from "react";
+// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import Tabs from "./tabs";
+import Tab from "./tab";
 import { useQuery } from "@apollo/client";
-import { QUERY_ALL_CHILDREN } from "../utils/queries";
+import { QUERY_ALL_CHILDREN, QUERY_ALL_PARENT_CHORES } from "../utils/queries";
 import { useParentContext } from "../utils/GlobalState";
 // import { useAccountContext, useParentContext, useChildContext } from '../utils/GlobalState';
 import Auth from "../utils/auth";
 import styled from "styled-components";
+import Addchorebtn from "../components/addchorebtn";
+import { Link, useParams } from "react-router-dom";
 
 const Regbtn = styled.button`
   display: inline-block;
@@ -19,42 +24,171 @@ const Regbtn = styled.button`
   border: 3px solid #538e73ba;
   font-size: 1em;
 `;
+const FlexBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  border: none;
+  justify-content: space-evenly;
+  align-itmes: stretch;
+`;
+const Text = styled.p`
+  font-family: "Fredericka the Great", cursive;
+  padding: 0.5em 0.5em;
+  color: #538e73;
+  font-size: 1.5em;
+`;
+const Progress = styled.progress`
+height: 30px;
+width: 400px;
+colour: #538e73ba;
+`;
+const Card = styled.div`
+  max-width: auto;
+  padding 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  margin: auto auto;
+  @media (max-width: 1000px) {
+    background-color: #fff8dc;
+  }
+`;
+const Table = styled.table`
+
+width:100%;
+`;
+const ColumnA = styled.col`
+
+width=15%
+`;
+const ColumnB = styled.col`
+
+width=45%
+`;
+const ColumnC = styled.col`
+
+width=20%
+`;
+const ColumnD = styled.col`
+
+width=20%
+`;
+const TH = styled.th`
+padding: 2px;
+border-spacing: 2px;
+font-family: "Fredericka the Great", cursive;
+text-align:center;
+color: #538e73;
+`;
+
+const TD = styled.td`
+padding: 1px;
+border-spacing: 2px;
+// border: 0.5px solid #538e73ba;
+text-align:center;
+font-family: "Fredericka the Great", cursive;
+`;
+const Icon = styled.i`
+padding: 5px;
+height: 10px;
+width 10px; 
+`;
 const FindChildren = () => {
   
   const { Parent } = useParentContext();
   console.log(Parent);
-  // const [getChildren, { error, data }] = useQuery(QUERY_ALL_CHILDREN);
-  const { loading, error, data } = useQuery(QUERY_ALL_CHILDREN, {
+  const [disable, setDisable] = useState(false);
+
+  const { loading: childload, error: childerror, data: child } = useQuery(QUERY_ALL_CHILDREN, {
     variables: { parentId: Parent._id },
     });
-    if (loading) return null;
-    if (error) return `Error! ${error}`;
-    console.log("data",data);
-  // const { data } = Auth.getUser();
-  // console.log("data", data);
-
-  // console.log("ParentContext", Parent);
- 
-  // const children = getChildren({ variables: { parentId: Parent._id } });
-  // console.log(children.data);
-
-  // console.log("children", data.children);
-  // console.log(data.children.length);
+  const { loading: choreload, error: choreerror, data: chores } = useQuery(QUERY_ALL_PARENT_CHORES, {
+    variables: { parentId: Parent._id },
+    });
+    const [newChild, setChild] = useState(child);
+    const [newChores, setChores] = useState(chores);
+    useEffect(() => {
+      if(!choreload && chores) {
+        setChores(chores);
+      }
+      }, [choreload, chores])
+    
+    if (childload) return null;
+    if (childerror) return `Error! ${childerror}`;
+    console.log("data",child);
+    if (choreload) return null;
+    if (choreerror) return `Err! ${choreerror}`;
+    console.log("data", chores);
 
   return (
     <div>
-       <p>Children</p>
-            {data && (
-              <div>
-                {data.children.map((child) => (
-                  <div key={child._id}>
-                 <Regbtn>{child.name}</Regbtn> 
-                  </div>
-                ))}
-              </div>
-            ) 
-          }
+      {child && (
+        <div> 
+          <Tabs> 
+            {child.children.map((child) => (
+              <div className="label" key={child._id} label={child.name}>
+              <FlexBox>
+                <div><Text>{child.creditsearned} {child.credittype}</Text></div>
+                  <Progress max={child.totalcredits} value={child.creditsearned}></Progress>
+                <div><Text>{child.totalcredits} {child.credittype}</Text></div>
+                <Regbtn> 
+                  <Link type="button" className="button" to={`/Add/Chore/${child.name}`} onClick={window.location.reload(true)}>
+                    Add Chore
+                  </Link>
+                </Regbtn>
+              </FlexBox>
+                {chores && (chores.parentchores.map((chore) => (
+                <div key = { chore._id }>
+                  <Card>
+                    <Table>
+                      <ColumnA></ColumnA>
+                      <ColumnB></ColumnB>
+                      <ColumnC></ColumnC>
+                      <ColumnD></ColumnD>
+                      <thead>
+                        <tr>
+                          <TH>Chore</TH>
+                          <TH>What needs to be done</TH>
+                          <TH>{child.credittype}</TH>
+                          <TH>Completed?</TH>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <TD>{chore.name}</TD>
+                          <TD>{chore.description}</TD>
+                          <TD>{chore.numcredits}</TD>
+                          <TD>{!chore.status ? (
+                          <Regbtn disabled={disable} onClick={e => 
+                            {e.preventDefault();
+                            setDisable(true);
+                            }}>
+                            {console.log(chore.status)}
+                            {chore.status}Delete
+                          </Regbtn>
+                          ) : (
+                            <Icon> 
+                            <img src="/check.png" alt="task done" ></img></Icon>
+                          )}</TD>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </Card>
+                
+                </div>
+      
+               
+              )))}
+            
+          </div>
+            ))}
+        </Tabs> 
       </div>
+    )}
+  </div>
   );
 };
 export default FindChildren;

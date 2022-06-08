@@ -65,6 +65,7 @@ const resolvers = {
 
     children: async (parent, { parent_Id }) => {
       return Child.find({ parent_Id: parent_Id });
+      
     },
 
     childchores: async (parent, { child_Id }) => {
@@ -74,6 +75,15 @@ const resolvers = {
     chore: async (parent, { _id }) => {
       return Chore.findById({ _id: _id });
     },
+    parentchores: async (parent, { parent_Id }) => {
+      return Chore.find({ parent_Id: parent_Id });
+    },
+
+    // parentchildchores: ( parent, { parent_Id }) => {
+    //   chores: async ({ child_Id })
+    //   return (await Chore.find({ child_Id: child_Id }).toArray()).map(prepare)
+    // },
+
 
     checkout: async (parent, args, context) => {
       try {
@@ -290,9 +300,7 @@ const resolvers = {
 
 
 
-    parentchores: async (parent, { parent_Id }) => {
-      return Chore.find({ parent_Id: parent_Id });
-    },
+
 
 
 
