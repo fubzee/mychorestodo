@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Logoutbtn from "./logoutbtn";
 import Donatebtn from "./donatebtn";
 import Backbtn from "./backbtn";
+import Addchildbtn from "../components/addchildbtn";
 
 const Wrapper = styled.section`
   padding: none;
@@ -21,6 +22,9 @@ function Baseline() {
   return (
     <Wrapper>
       <FlexBox>
+      <div>
+          <Addchildbtn />
+      </div>
         <div>
           <Logoutbtn />
         </div>

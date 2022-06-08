@@ -13,11 +13,11 @@ code {
 }
 
 background {
-  background: #fff8dc
+  background:  #2f4f4f;
 }
 
 .tab-list {
-  border-bottom: 1px solid #d1fdf6;
+  border-bottom: 1px solid #2f4f4f;
   padding-left: 0;
 }
 
@@ -29,7 +29,7 @@ background {
 }
 
 .tab-list-active {
-  background-color: #5Fc8FF;
+  background-color: #2f4f4f;
   border-width: 1px 1px 0 1px;
-  color: #000;
+  color: #fffff0;
 }

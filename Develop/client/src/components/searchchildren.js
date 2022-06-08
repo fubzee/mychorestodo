@@ -2,14 +2,16 @@ import React, { useState, useEffect, useContext, Children } from "react";
 // import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Tabs from "./tabs";
 import Tab from "./tab";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CHILDREN, QUERY_ALL_PARENT_CHORES } from "../utils/queries";
+import { REM_CHORE, REM_SINGLE_CHILD } from "../utils/mutations";
 import { useParentContext } from "../utils/GlobalState";
 // import { useAccountContext, useParentContext, useChildContext } from '../utils/GlobalState';
 import Auth from "../utils/auth";
 import styled from "styled-components";
 import Addchorebtn from "../components/addchorebtn";
 import { Link, useParams } from "react-router-dom";
+
 
 const Regbtn = styled.button`
   display: inline-block;
@@ -37,7 +39,7 @@ const Text = styled.p`
   font-family: "Fredericka the Great", cursive;
   padding: 0.5em 0.5em;
   color: #538e73;
-  font-size: 1.5em;
+  font-size: 1.0em;
 `;
 const Progress = styled.progress`
 height: 30px;
@@ -62,19 +64,23 @@ width:100%;
 `;
 const ColumnA = styled.col`
 
-width=15%
+width:15%
 `;
 const ColumnB = styled.col`
 
-width=45%
+width:45%
 `;
 const ColumnC = styled.col`
 
-width=20%
+width:15%
 `;
 const ColumnD = styled.col`
 
-width=20%
+width:15%
+`;
+const ColumnE = styled.col`
+
+width:10%
 `;
 const TH = styled.th`
 padding: 2px;
@@ -108,20 +114,23 @@ const FindChildren = () => {
   const { loading: choreload, error: choreerror, data: chores } = useQuery(QUERY_ALL_PARENT_CHORES, {
     variables: { parentId: Parent._id },
     });
-    const [newChild, setChild] = useState(child);
-    const [newChores, setChores] = useState(chores);
-    useEffect(() => {
-      if(!choreload && chores) {
-        setChores(chores);
-      }
-      }, [choreload, chores])
+  const [delChore, {loading: remchoreload, error: remchoreerr, data: remchore}] = useMutation(REM_CHORE);
+  const [delChild, {loading: remchildload, error:remchilderr, data: remchild}] = useMutation(REM_SINGLE_CHILD);
+
+    // const [newChild, setChild] = useState(child);
+    // const [newChores, setChores] = useState(chores);
+    // useEffect(() => {
+    //   if(!choreload && chores) {
+    //     setChores(chores);
+    //   }
+    //   }, [choreload, chores])
     
-    if (childload) return null;
-    if (childerror) return `Error! ${childerror}`;
-    console.log("data",child);
-    if (choreload) return null;
-    if (choreerror) return `Err! ${choreerror}`;
-    console.log("data", chores);
+  if (childload) return null;
+  if (childerror) return `Error! ${childerror}`;
+  console.log("data",child);
+  if (choreload) return null;
+  if (choreerror) return `Err! ${choreerror}`;
+  console.log("data", chores);
 
   return (
     <div>
@@ -130,12 +139,25 @@ const FindChildren = () => {
           <Tabs> 
             {child.children.map((child) => (
               <div className="label" key={child._id} label={child.name}>
+                <div>
+                <span
+                  role="img"
+                  aria-label="trash"
+                  onClick={e => 
+                    {e.preventDefault();
+                    delChild({variables: {childId: child._id}})
+                    setDisable(true);
+                  }}>
+                  🗑️
+                </span>
+                </div>
               <FlexBox>
+                
                 <div><Text>{child.creditsearned} {child.credittype}</Text></div>
                   <Progress max={child.totalcredits} value={child.creditsearned}></Progress>
                 <div><Text>{child.totalcredits} {child.credittype}</Text></div>
                 <Regbtn> 
-                  <Link type="button" className="button" to={`/Add/Chore/${child.name}`} onClick={window.location.reload(true)}>
+                  <Link type="button" className="button" to={`/Add/Chore/${child.name}`}>
                     Add Chore
                   </Link>
                 </Regbtn>
@@ -148,12 +170,13 @@ const FindChildren = () => {
                       <ColumnB></ColumnB>
                       <ColumnC></ColumnC>
                       <ColumnD></ColumnD>
+                      <ColumnE></ColumnE>
                       <thead>
                         <tr>
                           <TH>Chore</TH>
                           <TH>What needs to be done</TH>
                           <TH>{child.credittype}</TH>
-                          <TH>Completed?</TH>
+                          <TH>Status?</TH>
                         </tr>
                       </thead>
                       <tbody>
@@ -162,27 +185,28 @@ const FindChildren = () => {
                           <TD>{chore.description}</TD>
                           <TD>{chore.numcredits}</TD>
                           <TD>{!chore.status ? (
-                          <Regbtn disabled={disable} onClick={e => 
-                            {e.preventDefault();
-                            setDisable(true);
-                            }}>
-                            {console.log(chore.status)}
-                            {chore.status}Delete
-                          </Regbtn>
-                          ) : (
-                            <Icon> 
-                            <img src="/check.png" alt="task done" ></img></Icon>
-                          )}</TD>
+                              <Text>To Do</Text>
+                              ) : (
+                              <Text>Chore Done</Text>
+                              )} </TD>
+                          <TD>
+                             <span
+                                role="img"
+                                aria-label="trash"
+                                onClick={e => 
+                                  {e.preventDefault();
+                                  delChore({variables: {choreId: chore._id}})
+                                  setDisable(true);
+                                }}>
+                                🗑️
+                              </span>
+                          </TD>
                         </tr>
                       </tbody>
                     </Table>
                   </Card>
-                
                 </div>
-      
-               
               )))}
-            
           </div>
             ))}
         </Tabs> 

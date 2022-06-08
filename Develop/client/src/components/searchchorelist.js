@@ -100,19 +100,19 @@ width:100%;
 `;
 const ColumnA = styled.col`
 
-width=15%
+width:15%
 `;
 const ColumnB = styled.col`
 
-width=45%
+width:45%
 `;
 const ColumnC = styled.col`
 
-width=20%
+width:20%
 `;
 const ColumnD = styled.col`
 
-width=20%
+width:20%
 `;
 const TH = styled.th`
 padding: 2px;
