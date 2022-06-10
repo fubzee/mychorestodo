@@ -197,7 +197,7 @@ const resolvers = {
         credittype:credittype,
         creditsearned:creditsearned,
         parent_Id: parent_Id,
-        user_Id: child_Id,
+        user_Id: user_Id,
         });
       return child;
     },

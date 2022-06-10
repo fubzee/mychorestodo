@@ -3,38 +3,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_ALL_CHILDREN_CHORES } from "../utils/queries";
 import { UPDATE_CHORE, UPD_CHILD_CRD } from "../utils/mutations";
 import { useChildContext} from "../utils/GlobalState";
-
-import Auth from "../utils/auth";
-
 import styled from "styled-components";
 
-const Wrapper = styled.section`
-  padding: 4em;
-  background: #fff8dc;
-`;
-const Savebtn = styled.button`
-  display: inline-block;
-  font-family: "Fredericka the Great", cursive;
-  border-radius: 3px;
-  padding: 0.25em 1em;
-  margin: 1rem 1rem;
-  width: 6rem;
-  background: White;
-  color: #2f4f4f;
-  border: 3px solid #538e73ba;
-  font-size: 1em;
-`;
-const Input = styled.input`
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0.25em 1em;
-  margin: 0.5rem 1rem;
-  width: 8rem;
-  background: White;
-  color: #2f4f4f;
-  border: 3px solid #538e73ba;
-  font-size: 1em;
-`;
 const Card = styled.div`
   max-width: auto;
   padding 5px;
@@ -85,10 +55,10 @@ const Regbtn = styled.button`
    
     background-color: #3e8e41;
     transform: translateY(4px);
-   
   }
 
-  &&:after {
+  &:after {
+ 
     cursor: not-allowed;
     box-shadow: none;
   }
@@ -146,22 +116,32 @@ const Choreslist = () => {
       const { Child } = useChildContext();
       console.log(Child);
       const [creditsearnedcount, setProgress] = useState(Child.creditsearned);
-      const [disable, setDisable] = useState(false);
-      const [finChore, { load, err, chore }] = useMutation(UPDATE_CHORE,{
+      const [childstate, SetChildState] = useState(Child);
+      const { loading: choreloading, error: choreerror, data } = useQuery(QUERY_ALL_CHILDREN_CHORES, {
+        variables: { childId: Child._id },
+        });
+
+      const [chorestate, setChoreState] = useState(data);
+      console.log(data);
+      useEffect(() => {console.log(chorestate)},[chorestate]);
+      const [finChore, { loading: load, error: err, data: chore }] = useMutation(UPDATE_CHORE,{
         refetchQueries: [
           useQuery(QUERY_ALL_CHILDREN_CHORES, {
             variables: { childId: Child._id },
             })
         ]
+       
       });
-      const [updChild, { loads, errs, child}] = useMutation(UPD_CHILD_CRD);
+      const [updChild, { loading: loads, error: errs, data: child}] = useMutation(UPD_CHILD_CRD);
       console.log("creditsearnedcount", creditsearnedcount);
-      console.log(Child);
-      const { loading, error, data } = useQuery(QUERY_ALL_CHILDREN_CHORES, {
-      variables: { childId: Child._id },
-      });
-      if (loading) return null;
-      if (error) return `Error! ${error}`;
+      console.log(child);
+      useEffect(() => {console.log("UseEffect")},[chore, child])
+      if (load) return null;
+      if (err) return `Error! ${errs}`;
+      if (choreloading) return null;
+      if (choreerror) return `Error! ${choreerror}`;
+      if (loads) return null;
+      if (errs) return `Error! ${errs}`;
       console.log("data", data);
       return (
       <div>
@@ -174,9 +154,8 @@ const Choreslist = () => {
 
         {data && (
             data.childchores.map((chore) => (
-              <div key={chore._Id}>
-                 
-        <Card>
+        <div key={chore._Id}>
+       <Card>
           <Table>
             <ColumnA></ColumnA>
             <ColumnB></ColumnB>
@@ -196,15 +175,16 @@ const Choreslist = () => {
                 <TD>{chore.description}</TD>
                 <TD>{chore.numcredits}</TD>
                 <TD>{!chore.status ? (
-                <Regbtn disabled={disable} onClick={e => 
-                  {e.preventDefault();
+                <Regbtn onClick={e => 
+                  {
                   finChore({ variables: {choreId: chore._id, status: true, datecompleted: Date()}})
+                  setChoreState(chore);
                   setProgress(creditsearnedcount + chore.numcredits);
                   updChild({ variables: {childId: Child._id, creditsearned: creditsearnedcount }})
-                  setDisable(true);
+                  SetChildState(child);
                   }}>
                   {console.log(chore.status)}
-                  {chore.status}Completed
+                  {chore.status}Complete
                 </Regbtn>
                 ) : (
                   <Icon> 

@@ -11,7 +11,7 @@ import Auth from "../utils/auth";
 import styled from "styled-components";
 import Addchorebtn from "../components/addchorebtn";
 import { Link, useParams } from "react-router-dom";
-
+import { STATES } from "mongoose";
 
 const Regbtn = styled.button`
   display: inline-block;
@@ -39,12 +39,12 @@ const Text = styled.p`
   font-family: "Fredericka the Great", cursive;
   padding: 0.5em 0.5em;
   color: #538e73;
-  font-size: 1.0em;
+  font-size: 1em;
 `;
 const Progress = styled.progress`
-height: 30px;
-width: 400px;
-colour: #538e73ba;
+  height: 30px;
+  width: 400px;
+  colour: #538e73ba;
 `;
 const Card = styled.div`
   max-width: auto;
@@ -59,43 +59,37 @@ const Card = styled.div`
   }
 `;
 const Table = styled.table`
-
-width:100%;
+  width: 100%;
 `;
 const ColumnA = styled.col`
-
-width:15%
+  width: 15%;
 `;
 const ColumnB = styled.col`
-
-width:45%
+  width: 45%;
 `;
 const ColumnC = styled.col`
-
-width:15%
+  width: 15%;
 `;
 const ColumnD = styled.col`
-
-width:15%
+  width: 15%;
 `;
 const ColumnE = styled.col`
-
-width:10%
+  width: 10%;
 `;
 const TH = styled.th`
-padding: 2px;
-border-spacing: 2px;
-font-family: "Fredericka the Great", cursive;
-text-align:center;
-color: #538e73;
+  padding: 2px;
+  border-spacing: 2px;
+  font-family: "Fredericka the Great", cursive;
+  text-align: center;
+  color: #538e73;
 `;
 
 const TD = styled.td`
-padding: 1px;
-border-spacing: 2px;
-// border: 0.5px solid #538e73ba;
-text-align:center;
-font-family: "Fredericka the Great", cursive;
+  padding: 1px;
+  border-spacing: 2px;
+  // border: 0.5px solid #538e73ba;
+  text-align: center;
+  font-family: "Fredericka the Great", cursive;
 `;
 const Icon = styled.i`
 padding: 5px;
@@ -103,31 +97,60 @@ height: 10px;
 width 10px; 
 `;
 const FindChildren = () => {
-  
   const { Parent } = useParentContext();
   console.log(Parent);
   const [disable, setDisable] = useState(false);
 
-  const { loading: childload, error: childerror, data: child } = useQuery(QUERY_ALL_CHILDREN, {
+  const {
+    loading: childload,
+    error: childerror,
+    data: child,
+  } = useQuery(QUERY_ALL_CHILDREN, {
     variables: { parentId: Parent._id },
-    });
-  const { loading: choreload, error: choreerror, data: chores } = useQuery(QUERY_ALL_PARENT_CHORES, {
+  });
+  const {
+    loading: choreload,
+    error: choreerror,
+    data: chores,
+  } = useQuery(QUERY_ALL_PARENT_CHORES, {
     variables: { parentId: Parent._id },
-    });
-  const [delChore, {loading: remchoreload, error: remchoreerr, data: remchore}] = useMutation(REM_CHORE);
-  const [delChild, {loading: remchildload, error:remchilderr, data: remchild}] = useMutation(REM_SINGLE_CHILD);
+  });
+  const [
+    delChore,
+    { loading: remchoreload, error: remchoreerr, data: remchore },
+  ] = useMutation(REM_CHORE);
+  const [
+    delChild,
+    { loading: remchildload, error: remchilderr, data: remchild },
+  ] = useMutation(REM_SINGLE_CHILD);
+  const [chorestate, setChoreState] = useState(chores);
+  const [currentChild, setChild] = useState(null);
+  // useEffect(() => {
+  // },[child, chores]
+  // );
 
-    // const [newChild, setChild] = useState(child);
-    // const [newChores, setChores] = useState(chores);
-    // useEffect(() => {
-    //   if(!choreload && chores) {
-    //     setChores(chores);
-    //   }
-    //   }, [choreload, chores])
-    
+  function filterChores(currentChild) {
+    console.log(currentChild);
+    if (!currentChild) {
+      return chores.parentchores;
+    }
+    return chores.parentchores.filter(
+      ( chores ) => chores.child_Id === currentChild
+   
+     );
+  }
+
+  // const [newChild, setChild] = useState(child);
+  // const [newChores, setChores] = useState(chores);
+  // useEffect(() => {
+  //   if(!choreload && chores) {
+  //     setChores(chores);
+  //   }
+  //   }, [choreload, chores])
+
   if (childload) return null;
   if (childerror) return `Error! ${childerror}`;
-  console.log("data",child);
+  console.log("data", child);
   if (choreload) return null;
   if (choreerror) return `Err! ${choreerror}`;
   console.log("data", chores);
@@ -135,35 +158,51 @@ const FindChildren = () => {
   return (
     <div>
       {child && (
-        <div> 
-          <Tabs> 
+        <div>
+          <Tabs>
             {child.children.map((child) => (
               <div className="label" key={child._id} label={child.name}>
+               
                 <div>
-                <span
-                  role="img"
-                  aria-label="trash"
-                  onClick={e => 
-                    {e.preventDefault();
-                    delChild({variables: {childId: child._id}})
-                    setDisable(true);
-                  }}>
-                  🗑️
-                </span>
-                </div>
-              <FlexBox>
-                
-                <div><Text>{child.creditsearned} {child.credittype}</Text></div>
-                  <Progress max={child.totalcredits} value={child.creditsearned}></Progress>
-                <div><Text>{child.totalcredits} {child.credittype}</Text></div>
-                <Regbtn> 
-                  <Link type="button" className="button" to={`/Add/Chore/${child.name}`}>
-                    Add Chore
-                  </Link>
-                </Regbtn>
-              </FlexBox>
-                {chores && (chores.parentchores.map((chore) => (
-                <div key = { chore._id }>
+
+                  <span
+                    role="img"
+                    aria-label="trash"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      delChild({ variables: { childId: child._id } });
+                      setDisable(true);
+                    }}
+                  >
+                    🗑️
+                  </span>
+                  <FlexBox>
+                    <div>
+                      <Text>
+                        {child.creditsearned} {child.credittype}
+                      </Text>
+                    </div>
+                    <Progress
+                      max={child.totalcredits}
+                      value={child.creditsearned}
+                    ></Progress>
+                    <div>
+                      <Text>
+                        {child.totalcredits} {child.credittype}
+                      </Text>
+                    </div>
+                    <Regbtn>
+                      <Link
+                        type="button"
+                        className="button"
+                        to={`/Add/Chore/${child.name}`}
+                      >
+                        Add Chore
+                      </Link>
+                    </Regbtn>
+                  </FlexBox>
+                  {chores && filterChores(child._id).map((chore) => (
+                  <div key={chore._id}>
                   <Card>
                     <Table>
                       <ColumnA></ColumnA>
@@ -184,35 +223,41 @@ const FindChildren = () => {
                           <TD>{chore.name}</TD>
                           <TD>{chore.description}</TD>
                           <TD>{chore.numcredits}</TD>
-                          <TD>{!chore.status ? (
-                              <Text>To Do</Text>
-                              ) : (
-                              <Text>Chore Done</Text>
-                              )} </TD>
                           <TD>
-                             <span
-                                role="img"
-                                aria-label="trash"
-                                onClick={e => 
-                                  {e.preventDefault();
-                                  delChore({variables: {choreId: chore._id}})
-                                  setDisable(true);
-                                }}>
-                                🗑️
-                              </span>
+                            {!chore.status ? (
+                              <Text>To Do</Text>
+                            ) : (
+                              <Text>Chore Done</Text>
+                            )}
+                          </TD>
+                          <TD>
+                            <span
+                              role="img"
+                              aria-label="trash"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                delChore({
+                                  variables: { choreId: chore._id },
+                                });
+                                setDisable(true);
+                              }}
+                            >
+                              🗑️
+                            </span>
                           </TD>
                         </tr>
                       </tbody>
                     </Table>
                   </Card>
                 </div>
-              )))}
-          </div>
-            ))}
-        </Tabs> 
-      </div>
-    )}
-  </div>
+              ))}
+            </div>
+            </div>
+          ))}
+        </Tabs>
+        </div>
+      )}
+    </div>
   );
 };
 export default FindChildren;
