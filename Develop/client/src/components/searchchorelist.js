@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_ALL_CHILDREN_CHORES } from "../utils/queries";
-import { UPDATE_CHORE, UPD_CHILD_CRD } from "../utils/mutations";
+import { UPDATE_CHORE, UPD_CHILD_CRD, ADD_CHORE } from "../utils/mutations";
 import { useChildContext} from "../utils/GlobalState";
 import styled from "styled-components";
 
@@ -130,8 +130,38 @@ const Choreslist = () => {
             variables: { childId: Child._id },
             })
         ]
-       
       });
+      const [readdChore, {loading: newaddload, error: newadderror, data: newaddchore}] = useMutation(ADD_CHORE); 
+      
+      function chkRepeat(chore) {
+        if (chore.repeat === "Yes") {
+          const datecreated = new Date();
+          datecreated.setDate(datecreated.getDate() + 1);
+          console.log("Date" , datecreated);
+          readdChore({ variables: {
+              name: chore.name,
+              description: chore.description,
+              status: false,
+              numcredits: chore.numcredits,
+              parentId: chore.parent_Id,
+              childId: chore.child_Id,
+              repeat: chore.repeat,
+              datecreated: datecreated,
+              datecompleted: "",
+             }})
+        }
+      }
+      function filterChores(choredata) {
+        console.log(choredata);
+        const dateNow = Date.now();
+        console.log(dateNow);
+        if (!choredata) {
+          return data.childchores;
+        }
+        return data.childchores.filter(
+          ( choredata ) => choredata.datecreated <= dateNow)
+      };
+       
       const [updChild, { loading: loads, error: errs, data: child}] = useMutation(UPD_CHILD_CRD);
       console.log("creditsearnedcount", creditsearnedcount);
       console.log(child);
@@ -142,7 +172,10 @@ const Choreslist = () => {
       if (choreerror) return `Error! ${choreerror}`;
       if (loads) return null;
       if (errs) return `Error! ${errs}`;
+      if (newaddload) return null;
+      if (newadderror) return `Error! ${errs}`;
       console.log("data", data);
+      console.log("newaddchore", newaddchore);
       return (
       <div>
         <Text>Hello {Child.name}</Text>
@@ -152,8 +185,7 @@ const Choreslist = () => {
         <div><Text>{Child.totalcredits} {Child.credittype}</Text></div>
         </FlexBox>
 
-        {data && (
-            data.childchores.map((chore) => (
+        {data && filterChores(data).map((chore) => (
         <div key={chore._Id}>
        <Card>
           <Table>
@@ -177,13 +209,13 @@ const Choreslist = () => {
                 <TD>{!chore.status ? (
                 <Regbtn onClick={e => 
                   {
+                  chkRepeat(chore)
                   finChore({ variables: {choreId: chore._id, status: true, datecompleted: Date()}})
                   setChoreState(chore);
                   setProgress(creditsearnedcount + chore.numcredits);
                   updChild({ variables: {childId: Child._id, creditsearned: creditsearnedcount }})
                   SetChildState(child);
                   }}>
-                  {console.log(chore.status)}
                   {chore.status}Complete
                 </Regbtn>
                 ) : (
@@ -195,7 +227,7 @@ const Choreslist = () => {
            </Table>
         </Card>
         </div>
-         )))}
+         ))}
       </div>
     );
 };

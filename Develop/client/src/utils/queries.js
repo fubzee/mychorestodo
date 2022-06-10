@@ -75,6 +75,8 @@ export const QUERY_ALL_CHILDREN_CHORES = gql`
       _id
       name
       description
+      repeat
+      datecreated
       status
       numcredits
       parent_Id

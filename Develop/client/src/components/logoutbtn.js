@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import Auth from "../utils/auth";
 
 const Regbtn = styled.button`
   display: inline-block;
@@ -18,14 +18,18 @@ const Regbtn = styled.button`
   bottom: 0;
   lect: 0;
 `;
+
 function Logoutbtn() {
+    
   return (
     <div>
-      <Regbtn>
-        <Link type="button" className="button" to={`/`}>
-          Logout
-        </Link>
-      </Regbtn>
+      <Regbtn onClick={e => 
+      {
+        e.preventDefault()
+        Auth.logout()
+      }} >
+        Logout
+    </Regbtn>
     </div>
   );
 }
