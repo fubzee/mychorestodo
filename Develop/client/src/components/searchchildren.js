@@ -1,18 +1,12 @@
 import React, { useState, useEffect, useContext, Children } from "react";
-// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Tabs from "./tabs";
-import Tab from "./tab";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CHILDREN, QUERY_ALL_PARENT_CHORES } from "../utils/queries";
 import { REM_CHORE, REM_SINGLE_CHILD } from "../utils/mutations";
 import { useParentContext } from "../utils/GlobalState";
-// import { useAccountContext, useParentContext, useChildContext } from '../utils/GlobalState';
-import Auth from "../utils/auth";
 import styled from "styled-components";
-import Addchorebtn from "../components/addchorebtn";
-import { Link, useParams } from "react-router-dom";
-import { STATES } from "mongoose";
-
+import { Link } from "react-router-dom";
+const dayjs = require ('dayjs'); 
 const Regbtn = styled.button`
   display: inline-block;
   font-family: "Fredericka the Great", cursive;
@@ -65,16 +59,22 @@ const ColumnA = styled.col`
   width: 15%;
 `;
 const ColumnB = styled.col`
-  width: 45%;
+  width: 40%;
 `;
 const ColumnC = styled.col`
   width: 15%;
 `;
 const ColumnD = styled.col`
-  width: 15%;
+  width: 5%;
 `;
 const ColumnE = styled.col`
-  width: 10%;
+  width: 5%;
+`;
+const ColumnF = styled.col`
+  width: 15%;
+`;
+const ColumnG = styled.col`
+  width: 5%;
 `;
 const TH = styled.th`
   padding: 2px;
@@ -91,11 +91,7 @@ const TD = styled.td`
   text-align: center;
   font-family: "Fredericka the Great", cursive;
 `;
-const Icon = styled.i`
-padding: 5px;
-height: 10px;
-width 10px; 
-`;
+
 const FindChildren = () => {
   const { Parent } = useParentContext();
   console.log(Parent);
@@ -123,11 +119,18 @@ const FindChildren = () => {
     delChild,
     { loading: remchildload, error: remchilderr, data: remchild },
   ] = useMutation(REM_SINGLE_CHILD);
-  const [chorestate, setChoreState] = useState(chores);
-  const [currentChild, setChild] = useState(null);
+  // const [chorestate, setChoreState] = useState(chores);
+  
+  const [newChore, setChore] = useState(chores);
+  
+  const addChore = () => {
+    setChore((chore) => [...chore,]);
+  }
   // useEffect(() => {
   // },[child, chores]
   // );
+
+  
 
   function filterChores(currentChild) {
     console.log(currentChild);
@@ -139,6 +142,7 @@ const FindChildren = () => {
    
      );
   }
+
 
   // const [newChild, setChild] = useState(child);
   // const [newChores, setChores] = useState(chores);
@@ -191,7 +195,9 @@ const FindChildren = () => {
                         {child.totalcredits} {child.credittype}
                       </Text>
                     </div>
-                    <Regbtn>
+                    <Regbtn onClick={e => {
+                      setChore()
+                    }>
                       <Link
                         type="button"
                         className="button"
@@ -210,11 +216,16 @@ const FindChildren = () => {
                       <ColumnC></ColumnC>
                       <ColumnD></ColumnD>
                       <ColumnE></ColumnE>
+                      <ColumnF></ColumnF>
+                      <ColumnG></ColumnG>
                       <thead>
                         <tr>
                           <TH>Chore</TH>
                           <TH>What needs to be done</TH>
+                          <TH>Date</TH>
+                          <TH>Repeat</TH>
                           <TH>{child.credittype}</TH>
+                          <TH>Completed</TH>
                           <TH>Status?</TH>
                         </tr>
                       </thead>
@@ -222,7 +233,14 @@ const FindChildren = () => {
                         <tr>
                           <TD>{chore.name}</TD>
                           <TD>{chore.description}</TD>
+                          <TD>{!chore.datecreated ? (
+                          <Text> </Text> 
+                          ) : (dayjs(chore.datecreated/1).format("DD-MM-YYYY"))} 
+                          </TD>                         
+                          <TD>{chore.repeat}</TD>
                           <TD>{chore.numcredits}</TD>
+                          <TD>{!chore.datecompleted ? (<Text> </Text>) 
+                          : (dayjs(chore.datecompleted/1).format("DD-MM-YYYY"))}</TD>
                           <TD>
                             {!chore.status ? (
                               <Text>To Do</Text>

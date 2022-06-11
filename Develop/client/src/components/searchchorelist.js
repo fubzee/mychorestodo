@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_ALL_CHILDREN_CHORES } from "../utils/queries";
 import { UPDATE_CHORE, UPD_CHILD_CRD, ADD_CHORE } from "../utils/mutations";
@@ -121,9 +121,9 @@ const Choreslist = () => {
         variables: { childId: Child._id },
         });
 
-      const [chorestate, setChoreState] = useState(data);
+      // const [chorestate, setChoreState] = useState(data);
       console.log(data);
-      useEffect(() => {console.log(chorestate)},[chorestate]);
+      // useEffect(() => {console.log(chorestate)},[chorestate]);
       const [finChore, { loading: load, error: err, data: chore }] = useMutation(UPDATE_CHORE,{
         refetchQueries: [
           useQuery(QUERY_ALL_CHILDREN_CHORES, {
@@ -151,6 +151,29 @@ const Choreslist = () => {
              }})
         }
       }
+
+      const reducer = (state, action) => {
+        switch (action.type) {
+          case "COMPLETE":
+            return state.map((data) => {
+              if (data.id === action.id) {
+                return {...data, true: !data.status };
+              } else {
+                return data;
+              }
+              });
+            default:
+              return state;
+            }
+      };
+
+     
+      const [, dispatch ] = useReducer(reducer, data);
+      const handleComplete = (chore) => {
+        dispatch({ status: "True", id: data.id});
+      }
+    
+
       function filterChores(choredata) {
         console.log(choredata);
         const dateNow = Date.now();
@@ -165,7 +188,7 @@ const Choreslist = () => {
       const [updChild, { loading: loads, error: errs, data: child}] = useMutation(UPD_CHILD_CRD);
       console.log("creditsearnedcount", creditsearnedcount);
       console.log(child);
-      useEffect(() => {console.log("UseEffect")},[chore, child])
+      // useEffect(() => {console.log("UseEffect")},[chore, child])
       if (load) return null;
       if (err) return `Error! ${errs}`;
       if (choreloading) return null;
@@ -211,7 +234,8 @@ const Choreslist = () => {
                   {
                   chkRepeat(chore)
                   finChore({ variables: {choreId: chore._id, status: true, datecompleted: Date()}})
-                  setChoreState(chore);
+                  // 
+                  handleComplete(chore);
                   setProgress(creditsearnedcount + chore.numcredits);
                   updChild({ variables: {childId: Child._id, creditsearned: creditsearnedcount }})
                   SetChildState(child);

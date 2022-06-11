@@ -94,12 +94,15 @@ const AddChild = () =>
   {
     event.preventDefault();
     console.log(formState);
+
     try
     {
       const data  = await addUser({
         variables: { usertype: "Child", ...formState },
       });
+
      console.log({data});
+     
       // Auth.login(data.addUser.token);
       // console.log(childuserdata._id);
       console.log(event.totalcredits);
@@ -128,7 +131,7 @@ const AddChild = () =>
       {data ? (
         <Text>
         Success! You may now head{" "}
-        <Link to="/chores/parent">back to the page.</Link>
+        <Link to="/Add/chores/parent">back to the page.</Link>
       </Text>
       ) : (
         <Card>
