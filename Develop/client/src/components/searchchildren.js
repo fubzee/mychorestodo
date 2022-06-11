@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext, Children } from "react";
 import Tabs from "./tabs";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CHILDREN, QUERY_ALL_PARENT_CHORES } from "../utils/queries";
-import { REM_CHORE, REM_SINGLE_CHILD } from "../utils/mutations";
-import { useParentContext } from "../utils/GlobalState";
+import { REM_CHORE, REM_SINGLE_CHILD, REM_CHILD_CHORES } from "../utils/mutations";
+import { useParentContext, useStoreContext } from "../utils/GlobalState";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 const dayjs = require ('dayjs'); 
@@ -24,16 +24,16 @@ const FlexBox = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   border: none;
   justify-content: space-evenly;
-  align-itmes: stretch;
+ 
 `;
 const Text = styled.p`
   font-family: "Fredericka the Great", cursive;
   padding: 0.5em 0.5em;
   color: #538e73;
-  font-size: 1em;
+  font-size: 1.0em;
 `;
 const Progress = styled.progress`
   height: 30px;
@@ -88,15 +88,16 @@ const TD = styled.td`
   padding: 1px;
   border-spacing: 2px;
   // border: 0.5px solid #538e73ba;
+  font-size:0.75em;
   text-align: center;
   font-family: "Fredericka the Great", cursive;
 `;
 
 const FindChildren = () => {
-  const { Parent } = useParentContext();
-  console.log(Parent);
-  const [disable, setDisable] = useState(false);
 
+  const [state, dispatch] = useStoreContext();
+  const { Parent } = useParentContext();
+  const [disable, setDisable] = useState(false);
   const {
     loading: childload,
     error: childerror,
@@ -104,6 +105,12 @@ const FindChildren = () => {
   } = useQuery(QUERY_ALL_CHILDREN, {
     variables: { parentId: Parent._id },
   });
+  
+  useEffect(() => {
+    if (child) {
+      console.log(child);
+    }
+  }, [child]);
   const {
     loading: choreload,
     error: choreerror,
@@ -111,27 +118,38 @@ const FindChildren = () => {
   } = useQuery(QUERY_ALL_PARENT_CHORES, {
     variables: { parentId: Parent._id },
   });
+  useEffect(() => {
+    if (chores) {
+      console.log(chores);
+    }
+  }, [chores]);
+
   const [
     delChore,
-    { loading: remchoreload, error: remchoreerr, data: remchore },
-  ] = useMutation(REM_CHORE);
+    { loading: remchoreload, 
+      error: remchoreerr, 
+      data: remchore }
+    ] = useMutation(REM_CHORE, {
+    refetchQueries: [{query: QUERY_ALL_PARENT_CHORES, 
+      variables: { parentId: Parent._id }}],});
+
+  const [ remAllChores, { 
+    loading: remallchildChoresload, 
+    error: reamallchildChoreserror,
+    data: remallchildChoredata }
+   ] = useMutation (REM_CHILD_CHORES, {
+    refetchQueries: [{query: QUERY_ALL_PARENT_CHORES, 
+      variables: { parentId: Parent._id }}],});
+  
+
   const [
     delChild,
     { loading: remchildload, error: remchilderr, data: remchild },
-  ] = useMutation(REM_SINGLE_CHILD);
-  // const [chorestate, setChoreState] = useState(chores);
+    ] = useMutation(REM_SINGLE_CHILD, {
+    refetchQueries: [{ query: QUERY_ALL_CHILDREN, 
+      variables: { parentId: Parent._id }}],});
   
-  const [newChore, setChore] = useState(chores);
   
-  const addChore = () => {
-    setChore((chore) => [...chore,]);
-  }
-  // useEffect(() => {
-  // },[child, chores]
-  // );
-
-  
-
   function filterChores(currentChild) {
     console.log(currentChild);
     if (!currentChild) {
@@ -139,18 +157,8 @@ const FindChildren = () => {
     }
     return chores.parentchores.filter(
       ( chores ) => chores.child_Id === currentChild
-   
      );
   }
-
-
-  // const [newChild, setChild] = useState(child);
-  // const [newChores, setChores] = useState(chores);
-  // useEffect(() => {
-  //   if(!choreload && chores) {
-  //     setChores(chores);
-  //   }
-  //   }, [choreload, chores])
 
   if (childload) return null;
   if (childerror) return `Error! ${childerror}`;
@@ -158,23 +166,34 @@ const FindChildren = () => {
   if (choreload) return null;
   if (choreerror) return `Err! ${choreerror}`;
   console.log("data", chores);
-
+  if (remchildload) return null;
+  if (remchilderr) return `Error with removing child details ${remchilderr}`;
+  if (remchoreload) return null;
+  if (remchoreerr) return `Error with removing chore details ${remchoreerr}`;
+  if (remallchildChoresload) return null;
+  if (reamallchildChoreserror) return `Error with removing chore details ${remchoreerr}`;
+  console.log("data",child);
+  console.log("child.length", child.children.length);
   return (
     <div>
-      {child && (
-        <div>
+      {!child.children.length ? (
+      <Text>Welcome, to begin please start by adding the name of your child or children. 
+      Once they are registered you will be able to start creating chores for them To Do.</Text> 
+      ) : ( 
+      <div>
+        {child && (
           <Tabs>
             {child.children.map((child) => (
               <div className="label" key={child._id} label={child.name}>
-               
                 <div>
-
                   <span
                     role="img"
                     aria-label="trash"
                     onClick={(e) => {
                       e.preventDefault();
+                      remAllChores({ variables: { childId: child._id}});
                       delChild({ variables: { childId: child._id } });
+                    
                       setDisable(true);
                     }}
                   >
@@ -195,9 +214,7 @@ const FindChildren = () => {
                         {child.totalcredits} {child.credittype}
                       </Text>
                     </div>
-                    <Regbtn onClick={e => {
-                      setChore()
-                    }>
+                    <Regbtn >
                       <Link
                         type="button"
                         className="button"
@@ -234,13 +251,15 @@ const FindChildren = () => {
                           <TD>{chore.name}</TD>
                           <TD>{chore.description}</TD>
                           <TD>{!chore.datecreated ? (
-                          <Text> </Text> 
-                          ) : (dayjs(chore.datecreated/1).format("DD-MM-YYYY"))} 
+                            <Text> </Text> 
+                            ) : (dayjs(chore.datecreated/1).format("DD-MM-YYYY"))} 
                           </TD>                         
                           <TD>{chore.repeat}</TD>
                           <TD>{chore.numcredits}</TD>
-                          <TD>{!chore.datecompleted ? (<Text> </Text>) 
-                          : (dayjs(chore.datecompleted/1).format("DD-MM-YYYY"))}</TD>
+                          <TD>{!chore.datecompleted ? (
+                            <Text> </Text>
+                            ) : (dayjs(chore.datecompleted/1).format("DD-MM-YYYY"))}
+                          </TD>
                           <TD>
                             {!chore.status ? (
                               <Text>To Do</Text>
@@ -257,7 +276,7 @@ const FindChildren = () => {
                                 delChore({
                                   variables: { choreId: chore._id },
                                 });
-                                setDisable(true);
+                                setDisable(true);    
                               }}
                             >
                               🗑️
@@ -273,8 +292,9 @@ const FindChildren = () => {
             </div>
           ))}
         </Tabs>
-        </div>
-      )}
+        )}
+       </div>
+      )}   
     </div>
   );
 };

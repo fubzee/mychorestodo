@@ -6,9 +6,10 @@ import { ADD_CHORE } from "../utils/mutations";
 import { QUERY_PARENT_CHILD } from "../utils/mutations";
 import { Link, useParams } from "react-router-dom";
 import Headline from "./headline";
-import { useParentContext } from "../utils/GlobalState";
+import { useParentContext,useStoreContext } from "../utils/GlobalState";
 
 import Auth from "../utils/auth";
+import { QUERY_ALL_PARENT_CHORES } from "../utils/queries";
 
 const Wrapper = styled.section`
   padding: 4em;
@@ -77,8 +78,10 @@ const AddChore = () => {
   const [getName, { n_error, n_data }] = useMutation(QUERY_PARENT_CHILD);
   console.log("Parent", Parent);
   console.log("Params", params);
-  const [addChore, { error, data }] = useMutation(ADD_CHORE);
-
+  const [addChore, { error, data }] = useMutation(ADD_CHORE, {
+    refetchQueries: [{query: QUERY_ALL_PARENT_CHORES,
+      variables: { parentId: Parent._id }}],});
+  
   // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;

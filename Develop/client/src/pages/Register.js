@@ -50,7 +50,7 @@ const Register = () => {
         ></img>
         </Picture>
       </FlexBox>
-      <Baseline {...Baseline} />
+      
       </Wrapper>
     </div>
   );

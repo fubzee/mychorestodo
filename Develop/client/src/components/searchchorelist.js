@@ -5,6 +5,7 @@ import { UPDATE_CHORE, UPD_CHILD_CRD, ADD_CHORE } from "../utils/mutations";
 import { useChildContext} from "../utils/GlobalState";
 import styled from "styled-components";
 
+
 const Card = styled.div`
   max-width: auto;
   padding 5px;
@@ -74,15 +75,15 @@ width:15%
 `;
 const ColumnB = styled.col`
 
-width:45%
+width:60%
 `;
 const ColumnC = styled.col`
 
-width:20%
+width:10%
 `;
 const ColumnD = styled.col`
 
-width:20%
+width:15%
 `;
 const TH = styled.th`
 padding: 2px;
@@ -125,17 +126,14 @@ const Choreslist = () => {
       console.log(data);
       // useEffect(() => {console.log(chorestate)},[chorestate]);
       const [finChore, { loading: load, error: err, data: chore }] = useMutation(UPDATE_CHORE,{
-        refetchQueries: [
-          useQuery(QUERY_ALL_CHILDREN_CHORES, {
-            variables: { childId: Child._id },
-            })
-        ]
-      });
+        refetchQueries: [{query:QUERY_ALL_CHILDREN_CHORES,
+            variables: { childId: Child._id }}],});
+  ;
       const [readdChore, {loading: newaddload, error: newadderror, data: newaddchore}] = useMutation(ADD_CHORE); 
       
       function chkRepeat(chore) {
         if (chore.repeat === "Yes") {
-          const datecreated = new Date();
+          const datecreated = new Date(new Date().setHours(0,0,0,0));
           datecreated.setDate(datecreated.getDate() + 1);
           console.log("Date" , datecreated);
           readdChore({ variables: {

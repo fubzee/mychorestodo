@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { useMutation } from "@apollo/client";
-import { ADD_USER } from "../utils/mutations";
+import { useMutation, useQuery } from "@apollo/client";
+import { QUERY_ALL_CHILDREN } from "../utils/queries";
 import { ADD_CHILD } from "../utils/mutations";
 import { ADD_CHILD_USER } from "../utils/mutations";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import Headline from "./headline";
-import { ParentProvider, useParentContext } from "../utils/GlobalState";
+import { ParentProvider, useParentContext, StoreProvider, useStoreContext } from "../utils/GlobalState";
+
 
 const Wrapper = styled.section`
   padding: 0.5em;
@@ -76,9 +77,27 @@ const AddChild = () =>
     credittype: "",
   });
   const { Parent } = useParentContext();
+  const { loading: childload,
+    error: childerror,
+    data: child,
+  } = useQuery(QUERY_ALL_CHILDREN, {
+    variables: { parentId: Parent._id },
+  });
   const [addUser, { error, data }] = useMutation(ADD_CHILD_USER);
-  const [addChild, { c_err, c_data1 }] = useMutation(ADD_CHILD);
+  const [addChild, { c_err, c_data1 }] = useMutation(ADD_CHILD, {
+    refetchQueries: [{ query: QUERY_ALL_CHILDREN, 
+      variables: { parentId: Parent._id }}],});
+  if (childload) return null;
+  if (childerror) return "Error with children load", {childerror};
+  
   // update state based on form input changes
+  // useEffect(() => {
+  //   if (c_data1) {
+  //     console.log(c_data1);
+  //   }
+  // }, [c_data1]);
+
+
   const handleChange = (event) =>
   {
     const { name, value } = event.target;
@@ -118,13 +137,13 @@ const AddChild = () =>
           parentId: Parent._id,
           ...formState,
         },
+      
       });
-    } catch (e)
+      } catch (e)
     {
       console.error(e.message);
     }
   };
-
   return (
     <Wrapper>
       <Headline></Headline>

@@ -54,7 +54,6 @@ const Card = styled.div`
 
 const LoginForm = () => {
   const [formState, setFormState] = useState({ username: '', password: '' });
-  // console.log("from form", ...formState);
   const [login, { error, data }] = useMutation(LOGIN);
   const navigate = useNavigate();
   const [getParent, { error: p_error, data: p_data }] =

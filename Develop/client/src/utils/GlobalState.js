@@ -9,6 +9,7 @@ const StoreContext = createContext();
 const ChildContext = createContext();
 const UserContext = createContext();
 
+
 const AccountProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useAccountReducer({
     isLoggedIn: false,
@@ -28,6 +29,8 @@ const StoreProvider = ({ value = [], ...props }) => {
     cartOpen: false,
     categories: [],
     currentCategory: '',
+    chore: [],
+    children: [],
   });
 
 return < Provider value={[state, dispatch]} {...props} />;
@@ -63,6 +66,26 @@ const ChildProvider = (props) => {
 return <ChildContext.Provider value={{ Child, setChild }} {...props} />;
 };
 
+// const ChoreProvider = (props) => {
+//   const [Chore, setChore] = useState();
+
+//   useEffect(() => {
+//     console.log(Chore)
+//   }, [Chore])
+
+// return <ChoreContext.Provider value={{ Chore, setChore }} {...props} />;
+// };
+
+
+// const ChildrenProvider = (props) => {
+//   const [Children, setChildren] = useState();
+
+//   useEffect(() => {
+//     console.log(Children)
+//   }, [Children])
+
+// return <ChoreContext.Provider value={{ Children, setChildren }} {...props} />;
+// };
 const useStoreContext = () => {
   return useContext(StoreContext);
 };
@@ -79,6 +102,14 @@ const useChildContext = () => {
   return useContext(ChildContext)
 };
 
+// const useChoreContext = () => {
+//   return useContext(ChoreContext)
+// };
+
+// const useChildrenContext = () => {
+//   return useContext(ChildrenContext)
+// };
+
 const useUserContext = () => {
   return useContext(UserContext)
 };
@@ -88,4 +119,7 @@ export {
   ParentProvider, useParentContext,
   ChildProvider, useChildContext,
   UserProvider, useUserContext,
+  // ChoreProvider, useChoreContext,
+  // ChildrenProvider, useChildrenContext,
+
  };
