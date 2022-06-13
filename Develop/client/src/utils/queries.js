@@ -132,3 +132,17 @@ query Parentchores($parentId: ID) {
 }
 `;
 
+
+export const QUERY_SINGLE_CHILD_REC = gql`
+  query getChildRec($childId: ID) {
+    getChildrec(_id: $childId) {
+      _id
+      name
+      totalcredits
+      credittype
+      creditsearned
+      parent_Id
+      user_Id
+    }
+  }
+`;

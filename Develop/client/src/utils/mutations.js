@@ -84,6 +84,7 @@ export const QUERY_SINGLE_PARENT = gql`
     }
   }
 `;
+
 export const QUERY_SINGLE_CHILD = gql`
   mutation getChild($userId: ID) {
     getChild(user_Id: $userId) {
@@ -97,6 +98,7 @@ export const QUERY_SINGLE_CHILD = gql`
     }
   }
 `;
+
 export const ADD_CHILD = gql`
   mutation AddChild(
     $name: String!
@@ -166,6 +168,7 @@ export const UPD_CHILD_CRD = gql`
     }
   }
 `;
+
 
 
 export const ADD_CHORE = gql`

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { QUERY_ALL_CHILDREN_CHORES } from "../utils/queries";
+import { QUERY_ALL_CHILDREN_CHORES, QUERY_SINGLE_CHILD_REC } from "../utils/queries";
 import { UPDATE_CHORE, UPD_CHILD_CRD, ADD_CHORE } from "../utils/mutations";
 import { useChildContext} from "../utils/GlobalState";
 import styled from "styled-components";
@@ -124,6 +124,10 @@ const Choreslist = () => {
 
       // const [chorestate, setChoreState] = useState(data);
       console.log(data);
+      const [
+        updChild, { loading: loads, error: errs, data: child}] = useMutation(UPD_CHILD_CRD, {
+          refetchQueries: [{query: QUERY_SINGLE_CHILD_REC,
+            variables: { childId: Child._id }}],});
       // useEffect(() => {console.log(chorestate)},[chorestate]);
       const [finChore, { loading: load, error: err, data: chore }] = useMutation(UPDATE_CHORE,{
         refetchQueries: [{query:QUERY_ALL_CHILDREN_CHORES,
@@ -183,7 +187,8 @@ const Choreslist = () => {
           ( choredata ) => choredata.datecreated <= dateNow)
       };
        
-      const [updChild, { loading: loads, error: errs, data: child}] = useMutation(UPD_CHILD_CRD);
+
+
       console.log("creditsearnedcount", creditsearnedcount);
       console.log(child);
       // useEffect(() => {console.log("UseEffect")},[chore, child])
@@ -231,11 +236,10 @@ const Choreslist = () => {
                 <Regbtn onClick={e => 
                   {
                   chkRepeat(chore)
-                  finChore({ variables: {choreId: chore._id, status: true, datecompleted: Date()}})
-                  // 
-                  handleComplete(chore);
                   setProgress(creditsearnedcount + chore.numcredits);
-                  updChild({ variables: {childId: Child._id, creditsearned: creditsearnedcount }})
+                  updChild({ variables: {childId: Child._id, creditsearned: creditsearnedcount + chore.numcredits }})
+                  finChore({ variables: {choreId: chore._id, status: true, datecompleted: Date()}})
+                  handleComplete(chore);
                   SetChildState(child);
                   }}>
                   {chore.status}Complete

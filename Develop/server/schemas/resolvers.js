@@ -68,6 +68,10 @@ const resolvers = {
       
     },
 
+    getChildrec: async (parent, { child_Id }) => {
+      return Child.findOne({ _id: child_Id });
+    },
+
     childchores: async (parent, { child_Id }) => {
       return Chore.find({ child_Id: child_Id });
     },
@@ -166,6 +170,8 @@ const resolvers = {
     getChild: async (parent, { user_Id }) => {
       return Child.findOne({ user_Id: user_Id });
     },
+
+
 
     addParent: async (parent, { name, email, chart, user_Id }) => {
       const newParent = await Parent.create({ name, email, chart, user_Id });
@@ -295,15 +301,6 @@ const resolvers = {
         { new: true }
       );
     },
-    ///
-
-
-
-
-
-
-
-
     childname: async (parent, { name }) => {
       return Child.find({ name: name });
     },

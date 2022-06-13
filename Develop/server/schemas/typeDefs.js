@@ -84,6 +84,7 @@ const typeDefs = gql`
     me: User
     parent(user_Id: ID): Parent
     child(user_Id: ID): Child
+    getChildrec(_id: ID): Child
     chore(_id: ID): Chore
     parentchores(parent_Id: ID): [Chore]
     childchores(child_Id: ID): [Chore]
@@ -93,6 +94,7 @@ const typeDefs = gql`
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout
     children(parent_Id: ID): [Child] 
+
   }
 
   type Mutation {
@@ -130,6 +132,7 @@ const typeDefs = gql`
     ): Parent
 
     getParent(user_Id: ID): Parent
+    getChild(user_Id: ID): Child
 
     addChild(
       name: String!
@@ -139,9 +142,6 @@ const typeDefs = gql`
       parent_Id: String!
       user_Id: String!
     ): Child
-
-    getChild(user_Id: ID): Child
-
     updateChild(
       child_Id: ID
       name: String!
