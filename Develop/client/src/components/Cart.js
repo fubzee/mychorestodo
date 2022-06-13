@@ -59,7 +59,7 @@ const stripePromise = loadStripe(
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout,  data ] = useLazyQuery(QUERY_CHECKOUT);
-
+  console.log(data);
   useEffect(() => {
     if (data) {
       console.log(data);
