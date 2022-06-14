@@ -92,6 +92,7 @@ const resolvers = {
     checkout: async (parent, args, context) => {
       try {
         const url = new URL(context.headers.referer).origin;
+        console.log("URL", URL);
         const order = new Order({ products: args.products });
         const line_items = [];
 

@@ -99,7 +99,7 @@ const LoginForm = () => {
         }
       }
     } catch (e) {
-      console.error(e);
+      alert(e);
     }
   };
 

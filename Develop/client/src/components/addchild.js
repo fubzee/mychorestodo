@@ -141,7 +141,7 @@ const AddChild = () =>
       });
       } catch (e)
     {
-      console.error(e.message);
+      alert("Username already exists:", e.message);
     }
   };
   return (

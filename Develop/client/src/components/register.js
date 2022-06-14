@@ -91,6 +91,7 @@ const Registration = () => {
       });
     } catch (err1) {
       console.error(err1.message);
+      alert("Username already exists:",err1.message);
     }
   };
 
