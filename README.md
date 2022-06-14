@@ -3,6 +3,9 @@
 https://mychorestodo.herokuapp.com/
 https://github.com/fubzee/mychorestodo
 
+![image](https://user-images.githubusercontent.com/94102473/173548470-d6eb5af4-b6de-4c64-82ba-88d8c619b5dc.png)
+
+
 Modernising the family chore chart you would have growing up.  A simple and handy tool for parents to create a set of chores or family duties for their child or children (or they can add themsleves as a "child" and do some family chores as well). Includes a repeat option that will automatically recreate the chore for the next day, once the current chore is completed.      
 
 ## Table of Contents: 
@@ -40,6 +43,7 @@ What the reward is for achieving the goal is something the parent and child will
 
     
     ## UserStory - Parent
+    
 | When | Then | 
 | ------------- |:-------------:| 
 |**WHEN**  I visit the site for the first time | **THEN** I am presented with the homepage, which includes a button to register first time  users or an option to log in for a Parent or Child |
@@ -94,9 +98,6 @@ JWT
 ## Licence
 ---
 Unlicenced
-
-## Usage
----
 
 ## Contributing
 ---
